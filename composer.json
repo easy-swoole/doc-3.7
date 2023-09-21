@@ -1,0 +1,17 @@
+{
+    "require": {
+        "easyswoole/easyswoole": "3.7.x",
+        "easyswoole/parsedown": "^1.0",
+        "voku/simple_html_dom": "^4.8",
+        "ext-yaml": "*",
+        "smarty/smarty": "^4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    },
+    "require-dev": {
+        "easyswoole/swoole-ide-helper": "^1.3"
+    }
+}
