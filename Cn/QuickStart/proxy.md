@@ -30,7 +30,7 @@ server {
 具体部署时的 `nginx` 代理配置，还可参考 [Deploy-Nginx](/Deploy/nginx.md) 章节。
 
 ::: warning 
- 代理之后，可通过 `$request->getHeader('x-real-ip')[0]` 获取客户端真实ip 
+ 代理之后，可通过 `$request->getHeaderLine('x-real-ip')` 获取客户端真实ip 
 :::
 
 ## Apache

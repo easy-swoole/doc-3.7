@@ -8,32 +8,38 @@ meta:
 ---
 
 ## 安装 Swoole
+
+:::warning
+如果您不想安装 `Swoole` 扩展，您可以使用 `Docker` 进行开发，`EasySwoole` 官方提供了符合需求的 Docker 镜像，
+[easyswoole/docker](https://github.com/XueSiLf/easyswoole-docker) 项目内已经为您准备好了各种版本的 `Dockerfile` ，或直接基于已经构建好的 [easyswoolexuesi2021/easyswoole](https://hub.docker.com/r/easyswoolexuesi2021/easyswoole/tags) 镜像来运行。
+:::
+
 ### 下载
 首先进入 `Swoole` 的 `Github` 下载地址: https://github.com/swoole/swoole-src/releases
   
 如果没有特殊需求，请选择最新稳定版本开始下载(我这里是稳定版v4.8.13):   
 ```
 ## 下载
-tioncico@tioncico-PC:/tmp$ wget https://github.com/swoole/swoole-src/archive/v4.8.13.tar.gz
+[root@easyswoole tmp]$ wget https://github.com/swoole/swoole-src/archive/v4.8.13.tar.gz
 # 如果使用 github 下载慢，请到 pecl 进行下载 
-# tioncico@tioncico-PC:/tmp$ wget https://pecl.php.net/get/swoole-4.8.13.tgz 
+# [root@easyswoole tmp]$ wget https://pecl.php.net/get/swoole-4.8.13.tgz 
 
 
 ## 解压到当前目录
-tioncico@tioncico-PC:/tmp$ tar -zvxf v4.8.13.tar.gz
+[root@easyswoole tmp]$ tar -zvxf v4.8.13.tar.gz
 
 ## cd 到解压之后的目录
-tioncico@tioncico-PC:/tmp$ cd swoole-src-4.8.13/ 
+[root@easyswoole tmp]$ cd swoole-src-4.8.13/ 
 
 ## 使用 phpize 创建 php 编译检测脚本 ./configure
 ##【注意：需要选择 php 对应版本的 phpize，这里使用的是绝对路径，否则编译安装无法生效】
-tioncico@tioncico-PC:/tmp/swoole-src-4.8.13$ /usr/local/php-8.1.22/bin/phpize
+[root@easyswoole swoole-src-4.8.13]$ /usr/local/php-8.1.22/bin/phpize
 
 ## 创建编译文件，第一个 --with，后面是 php-config 的所在路径(这个路径一般和 php 在同一个目录) /usr/local/php-8.1.22/bin/php-config，第二个 --enable，是开启 Swoole 的 ssl 功能，第三个 --enable(可选参数)，是开启 Swoole 支持 http2 相关的功能
-tioncico@tioncico-PC:/tmp/swoole-src-4.8.13$ ./configure --with-php-config=/usr/local/php-8.1.22/bin/php-config --enable-openssl --enable-http2
+[root@easyswoole swoole-src-4.8.13]$ ./configure --with-php-config=/usr/local/php-8.1.22/bin/php-config --enable-openssl --enable-http2
 
 ## 编译 Swoole 并把编译好的文件移动到 php 的扩展目录(前面的配置 php 版本的扩展目录) 需要root权限
-tioncico@tioncico-PC:/tmp/swoole-src-4.8.13$ sudo make && make install 
+[root@easyswoole swoole-src-4.8.13]$ sudo make && make install 
 
 ## 编译成功会显示如下：
 Build complete.
@@ -54,7 +60,7 @@ extension=swoole.so
 例如，我这里 `php.ini` 是在 `/usr/local/php-8.1.22/etc` 目录：
 
 ```
-tioncico@tioncico-PC:/tmp/swoole-src-4.8.13$ php --ini
+[root@easyswoole swoole-src-4.8.13]$ php --ini
 Configuration File (php.ini) Path: /usr/local/php-8.1.22/etc
 Loaded Configuration File:         /usr/local/php-8.1.22/etc/php.ini
 Scan for additional .ini files in: (none)
@@ -64,7 +70,7 @@ Additional .ini files parsed:      (none)
 成功安装 `Swoole` 之后，通过 `php --ri swoole` 查看 `Swoole 扩展` 的信息:
 
 ```
-tioncico@tioncico-PC:/tmp/swoole-src-4.8.13$ php --ri swoole
+[root@easyswoole swoole-src-4.8.13]$ php --ri swoole
 
 swoole
 
