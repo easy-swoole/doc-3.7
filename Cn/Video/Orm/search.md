@@ -6,7 +6,7 @@ meta:
   - name: keywords
     content: easyswoole免费视频课程|swoole框架免费教程
 ---
-
-# ORM查询
-
-教学视频可查看 [ORM查询](https://www.bilibili.com/video/BV13p4y1A7JJ)
+# 查询
+<div>
+    <iframe id="videoFrame" src="//player.bilibili.com/player.html?bvid=BV13p4y1A7JJ" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="900px" height="500px"></iframe>
+</div>

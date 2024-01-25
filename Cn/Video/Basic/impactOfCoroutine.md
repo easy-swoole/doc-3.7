@@ -7,5 +7,6 @@ meta:
     content: easyswoole免费视频课程|swoole框架免费教程
 ---
 # 协程带来的影响
-
-教学视频可查看 [协程带来的影响](https://www.bilibili.com/video/BV1Dj411C79G)
+<div>
+    <iframe id="videoFrame" src="//player.bilibili.com/player.html?bvid=BV1Dj411C79G" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="900px" height="500px"></iframe>
+</div>

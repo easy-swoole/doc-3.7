@@ -7,9 +7,9 @@ meta:
     content:  easyswoole免费视频课程|swoole框架免费教程
 ---
 # 安装运行环境
-
-教学视频可查看 [安装运行环境](https://www.bilibili.com/video/BV1hu411A7QJ)
-
+<div>
+    <iframe id="videoFrame" src="//player.bilibili.com/player.html?bvid=BV1hu411A7QJ" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="900px" height="500px"></iframe>
+</div>
 
 ## 附录
 

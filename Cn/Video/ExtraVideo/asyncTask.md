@@ -6,8 +6,7 @@ meta:
   - name: keywords
     content: easyswoole免费视频课程|swoole框架免费教程
 ---
-
 # 异步任务
-
-教学视频可查看 [异步任务](https://www.bilibili.com/video/BV1gj411y7cW)
-
+<div>
+    <iframe id="videoFrame" src="//player.bilibili.com/player.html?bvid=BV1gj411y7cW" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="900px" height="500px"></iframe>
+</div>
