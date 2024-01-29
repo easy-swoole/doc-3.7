@@ -10,11 +10,11 @@ meta:
 # 自定义命令
 `EasySwoole 3.3.x` 默认自带有 5 个命令，如下所示:  
 ```
-php easyswoole help  命令帮助
-php easyswoole install 安装(需要在./vendor/easyswoole/easyswoole/bin/easyswoole 文件中调用)
-php easyswoole start  启动
-php easyswoole stop   停止(需要守护进程)
-php easyswoole reload  热重启(需要守护进程)
+php easyswoole.php help  命令帮助
+php easyswoole.php install 安装(需要在./vendor/easyswoole/easyswoole/bin/easyswoole 文件中调用)
+php easyswoole.php start  启动
+php easyswoole.php stop   停止(需要守护进程)
+php easyswoole.php reload  热重启(需要守护进程)
 ```
 
 ::: warning 
@@ -90,13 +90,13 @@ class Test implements CommandInterface
 
 ## 执行命令及执行结果
 ```bash
-$ php easyswoole test
+$ php easyswoole.php test
 array(0) {
 }
 test
 
 
-$ php easyswoole test 123 456
+$ php easyswoole.php test 123 456
 array(2) {
   [0]=>
   string(3) "123"
@@ -106,7 +106,7 @@ array(2) {
 test
 
 
-$ php easyswoole help test
+$ php easyswoole.php help test
   ______                          _____                              _
  |  ____|                        / ____|                            | |
  | |__      __ _   ___   _   _  | (___   __      __   ___     ___   | |   ___

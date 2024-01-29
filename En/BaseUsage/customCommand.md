@@ -10,11 +10,11 @@ meta:
 # Custom command
 EasySwoole has five default commands:  
 ````
-php easyswoole help  Command assistance
-php easyswoole install (Need to be in./vendor/easyswoole/easyswoole/bin/easyswoole file calls)
-php easyswoole start  
-php easyswoole stop   (need daemons)
-php easyswoole reload  warm restart(need daemons)
+php easyswoole.php help  Command assistance
+php easyswoole.php install (Need to be in./vendor/easyswoole/easyswoole/bin/easyswoole file calls)
+php easyswoole.php start  
+php easyswoole.php stop   (need daemons)
+php easyswoole.php reload  warm restart(need daemons)
 ````
 
 ::: warning 
@@ -87,13 +87,13 @@ Added`/bootstrap.php` File:
 ## Execute the command
 ````
 
-php easyswoole test
+php easyswoole.php test
 array(0) {
 }
 test
 
 
-php easyswoole test 123 456
+php easyswoole.php test 123 456
 array(2) {
   [0]=>
   string(3) "123"
@@ -101,7 +101,7 @@ array(2) {
   string(3) "456"
 }
 test
-[root@localhost easyswoole-test]# php easyswoole help test
+[root@localhost easyswoole-test]# php easyswoole.php help test
   ______                          _____                              _
  |  ____|                        / ____|                            | |
  | |__      __ _   ___   _   _  | (___   __      __   ___     ___   | |   ___

@@ -126,23 +126,23 @@ class CustomCrontab extends AbstractCronTask
 
 `EasySwoole` 内置对于 `Crontab` 的命令行操作，方便开发者友好的去管理 `Crontab`。
 
-可执行 `php easyswoole crontab -h` 来查看具体操作。
+可执行 `php easyswoole.php crontab -h` 来查看具体操作。
 
 **查看所有注册的Crontab**
 
-> php easyswoole crontab show
+> php easyswoole.php crontab show
 
 **停止指定的Crontab**
 
-> php easyswoole crontab stop --name=TASK_NAME
+> php easyswoole.php crontab stop --name=TASK_NAME
 
 **恢复指定的Crontab**
 
-> php easyswoole crontab resume --name=TASK_NAME
+> php easyswoole.php crontab resume --name=TASK_NAME
 
 **立即跑一次指定的Crontab**
 
-> php easyswoole crontab run --name=TASK_NAME
+> php easyswoole.php crontab run --name=TASK_NAME
 
 ## 版本强调
 

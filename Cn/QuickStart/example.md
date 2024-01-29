@@ -1,34 +1,54 @@
 ---
 title: easyswoole基础开发示例
 meta:
-  - name: description
-    content: easyswoole基础开发示例
-  - name: keywords
-    content: easyswoole基础开发示例
+- name: description
+  content: easyswoole基础开发示例
+- name: keywords
+  content: easyswoole基础开发示例
 ---
 
 # 基础开始示例
 
 ## demo 地址
 
-基础开发示例已经开源，源码地址：https://github.com/easy-swoole/demo/tree/3.x
+基础开发示例已经开源，源码地址：https://github.com/XueSiLf/demo-3.7.x
+
+::: danger
+注意事项，请先看完这里，再往下继续浏览。因为下面的 `demo` 中使用到了 `php8` 的注解特性，所以您需要先学习注解如何使用，可查看 `php` 官方文档的 [注解](https://www.php.net/manual/zh/language.attributes.php) 文档。如果您已经对注解用法非常熟悉了，可直接往下继续浏览。
+:::
 
 ## 安装
 
 ### 框架安装
 
-- 我们先把当前的 `php` 环境安装好 `swoole` 拓展，安装 `swoole 扩展` 步骤可查看 [安装 Swoole](/QuickStart/installSwoole.md) 章节，然后执行 `php --ri swoole` 确保可以看到 `swoole` 拓展版本为 `4.4.23`
-- 建立一个目录，名为 `Test` ，执行 `composer require easyswoole/easyswoole=3.4.x` 引入 `easyswoole`
-- 执行 `php vendor/bin/easyswoole install` 进行安装，然后输入 `Y`、`Y`
+#### Linux(Centos/Ubuntu/MacOS) 下安装
+
+- 我们先把当前的 `php` 环境安装好 `swoole` 拓展，安装 `swoole 扩展` 步骤可查看 [安装 Swoole](/QuickStart/installSwoole.md) 章节，然后执行 `php --ri swoole` 确保可以看到 `swoole` 拓展版本为 `4.8.13`
+- 建立一个目录，名为 `Test` ，执行 `composer require easyswoole/easyswoole=3.7.x` 引入 `easyswoole`
+- 执行 `php vendor/bin/easyswoole.php install` 进行安装，然后输入 `Y`、`Y`
+
+#### Docker 下安装
+
+```bash
+docker run --name easyswoole \
+-v /tmp/easyswoole:/var/www \
+-p 9501:9501 -it \
+--privileged -u root \
+--entrypoint /bin/sh \
+easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole4.8.13
+
+cd /var/www
+mkdir Test
+cd Test
+composer require easyswoole/easyswoole=3.7.x
+php vendor/bin/easyswoole.php install # 然后输入 `Y`、`Y`
+```
 
 ### 组件引入
 
 ```bash
 // 引入 IDE 代码提示组件
-composer require easyswoole/swoole-ide-helper
-
-// 引入 http-annotation 注解处理组件
-composer require easyswoole/http-annotation 
+composer require swoole/ide-helper
 ```
 
 ### 命名空间注册
@@ -38,9 +58,8 @@ composer require easyswoole/http-annotation
 ```json
 {
     "require": {
-        "easyswoole/easyswoole": "3.x",
-        "easyswoole/swoole-ide-helper": "^1.3",
-        "easyswoole/http-annotation": "^2.0"
+        "easyswoole/easyswoole": "3.7.x",
+        "swoole/ide-helper": "^5.1"
     },
     "autoload": {
         "psr-4": {
@@ -63,7 +82,7 @@ Test                    项目部署目录
 ├─composer.json           Composer 架构
 ├─composer.lock           Composer 锁定
 ├─EasySwooleEvent.php     框架全局事件
-├─easyswoole              框架管理脚本
+├─easyswoole.php          框架管理脚本
 ├─dev.php                 开发配置文件
 ├─produce.php             生产配置文件
 ```
@@ -72,55 +91,95 @@ Test                    项目部署目录
 
 ### 配置项
 
-我们在 `dev.php` 配置文件中，加入以下配置信息，**注意：请根据自己的 `mysql` 服务器信息填写账户密码**。
+创建配置文件 `Test/Config/DATABASE.php`，加入以下配置信息，**注意：请根据自己的 `mysql` 服务器信息填写账户密码**。
 
 ```php
 <?php
-
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link    https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact https://www.easyswoole.com/Preface/contact.html
+ * @license https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 return [
-    // ...... 这里省略
-    'MAIN_SERVER' => [
-        // ...... 这里省略
-    ],
-    // ...... 这里省略
-    
-    // 添加 MySQL 及对应的连接池配置
-    /*################ MYSQL CONFIG ##################*/
-    'MYSQL' => [
-        'host'          => '127.0.0.1', // 数据库地址
-        'port'          => 3306, // 数据库端口
-        'user'          => 'root', // 数据库用户名
-        'password'      => 'easyswoole', // 数据库用户密码
-        'timeout'       => 45, // 数据库连接超时时间
-        'charset'       => 'utf8', // 数据库字符编码
-        'database'      => 'easyswoole_demo', // 数据库名
-        'autoPing'      => 5, // 自动 ping 客户端链接的间隔
-        'strict_type'   => false, // 不开启严格模式
-        'fetch_mode'    => false,
-        'returnCollection'  => false, // 设置返回结果为 数组
-        // 配置 数据库 连接池配置，配置详细说明请看连接池组件 https://www.easyswoole.com/Components/Pool/introduction.html
-        'intervalCheckTime' => 15 * 1000, // 设置 连接池定时器执行频率
-        'maxIdleTime'   => 10, // 设置 连接池对象最大闲置时间 (秒)
-        'maxObjectNum'  => 20, // 设置 连接池最大数量
-        'minObjectNum'  => 5, // 设置 连接池最小数量
-        'getObjectTimeout'  => 3.0, // 设置 获取连接池的超时时间
-    ],
+    'DATABASE' => [
+        // 添加 MySQL 及对应的连接池配置
+        /*################ MYSQL CONFIG ##################*/
+        'MYSQL' => [
+            [
+                'name'              => 'default', // 数据库连接池名称
+                'useMysqli'         => false, // 是否是使用php-mysqli扩展
+                'host'              => '127.0.0.1', // 数据库地址
+                'port'              => 3306, // 数据库端口
+                'user'              => 'easyswoole', // 数据库用户名
+                'password'          => 'easyswoole', // 数据库用户密码
+                'timeout'           => 45, // 数据库连接超时时间
+                'charset'           => 'utf8', // 数据库字符编码
+                'database'          => 'easyswoole_demo', // 数据库名
+                'autoPing'          => 5, // 自动 ping 客户端链接的间隔
+                'strict_type'       => false, // 不开启严格模式
+                'fetch_mode'        => false,
+                'returnCollection'  => false, // 设置返回结果为 数组
+                // 配置 数据库 连接池配置，配置详细说明请看连接池组件 https://www.easyswoole.com/Components/Pool/introduction.html
+                'intervalCheckTime' => 15 * 1000, // 设置 连接池定时器执行频率
+                'maxIdleTime'       => 10, // 设置 连接池对象最大闲置时间 (秒)
+                'maxObjectNum'      => 20, // 设置 连接池最大数量
+                'minObjectNum'      => 5, // 设置 连接池最小数量
+                'getObjectTimeout'  => 3.0, // 设置 获取连接池的超时时间
+                'loadAverageTime'   => 0.001, // 设置负载阈值
+            ]
+        ]
+    ]
 ];
 ```
 
-进行如上配置之后，我们需要在 `MySQL` 服务端创建一个名为 `easyswoole_demo` 的数据库，选择字符串编码为 `utf8`，字符排序规则为 `utf8_general_ci`，
-
-### 引入数据库 ORM 库
-
-执行以下命令用于实现数据库 ORM 库的引入。
+修改 `Test/EasySwooleEvent.php` 文件，在 `initialize` 方法中添加如下内容，加载配置文件，
 
 ```php
-composer require easyswoole/orm=1.4.x
+<?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link    https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact https://www.easyswoole.com/Preface/contact.html
+ * @license https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+ 
+namespace EasySwoole\EasySwoole;
+
+use EasySwoole\EasySwoole\AbstractInterface\Event;
+
+class EasySwooleEvent implements Event
+{
+    public static function initialize()
+    {
+        date_default_timezone_set('Asia/Shanghai');
+
+        // 加载配置文件
+        Config::getInstance()->loadDir(EASYSWOOLE_ROOT . '/Config');
+    }
+    
+    // ...
+} 
+```
+
+进行如上配置之后，我们需要在 `MySQL` 服务端创建一个名为 `easyswoole_demo` 的数据库，选择字符串编码为 `utf8mb4`，字符排序规则为 `utf8mb4_general_ci`。
+
+### 引入数据库连接池组件 FastDb
+
+执行以下命令用于实现数据库连接池组件 FastDb 库的引入。
+
+```php
+composer require easyswoole/fast-db=2.x
 ```
 
 ### 注册数据库连接池
 
-编辑 `Test` 项目根目录下的 `EasySwooleEvent.php` 文件，在 `initialize` 或 `mainServerCreate` 事件函数中进行 `ORM` 的连接池的注册，内容如下：
+编辑 `Test` 项目根目录下的 `EasySwooleEvent.php` 文件，在 `initialize` 或 `mainServerCreate` 事件函数中进行 `FastDb` 的连接池的注册，内容如下：
 
 ```php
 <?php
@@ -129,37 +188,45 @@ namespace EasySwoole\EasySwoole;
 
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
-use EasySwoole\ORM\Db\Connection;
-use EasySwoole\ORM\DbManager;
+use EasySwoole\FastDb\FastDb;
 
 class EasySwooleEvent implements Event
 {
     public static function initialize()
     {
         date_default_timezone_set('Asia/Shanghai');
+   
+        // 加载配置文件
+        Config::getInstance()->loadDir(EASYSWOOLE_ROOT . '/Config');
 
         ###### 注册 mysql orm 连接池 ######
-        $config = new \EasySwoole\ORM\Db\Config(Config::getInstance()->getConf('MYSQL'));
-        // 【可选操作】我们已经在 dev.php 中进行了配置
-        # $config->setMaxObjectNum(20); // 配置连接池最大数量
-        DbManager::getInstance()->addConnection(new Connection($config));
+        $mysqlConfigs = Config::getInstance()->getConf('DATABASE.MYSQL');
+        foreach ($mysqlConfigs as $mysqlConfig) {
+            $configObj = new \EasySwoole\FastDb\Config($mysqlConfig);
+            // 【可选操作】我们已经在 DATABASE.php 中进行了配置
+            # $configObj->setMaxObjectNum(20); // 配置连接池最大数量
+            FastDb::getInstance()->addDb($configObj);
+        }
     }
 
     public static function mainServerCreate(EventRegister $register)
     {
         // 或者 在此函数中注册 和上面等价
         ###### 注册 mysql orm 连接池 ######
-        // $config = new \EasySwoole\ORM\Db\Config(Config::getInstance()->getConf('MYSQL'));
-        // 【可选操作】我们已经在 dev.php 中进行了配置
-        # $config->setMaxObjectNum(20); // 配置连接池最大数量
-        // DbManager::getInstance()->addConnection(new Connection($config));
+        // $mysqlConfigs = Config::getInstance()->getConf('DATABASE.MYSQL');
+        // foreach ($mysqlConfigs as $mysqlConfig) {
+        //    $configObj = new \EasySwoole\FastDb\Config($mysqlConfig);
+            // 【可选操作】我们已经在 DATABASE.php 中进行了配置
+            # $configObj->setMaxObjectNum(20); // 配置连接池最大数量
+        //    FastDb::getInstance()->addDb($configObj);
+        // }
     }
 }
 ```
 
-::: warning 
-  在 `initialize` 事件中注册数据库连接池，使用这个 `$config` 可同时配置连接池大小等。
-  具体查看 [ORM 组件章节](/Components/Orm/install.md) 的使用。
+::: warning
+在 `initialize` 事件中注册数据库连接池，使用这个 `$config` 可同时配置连接池大小等。
+具体查看 [FastDb 组件章节](/Components/FastDb/install.md) 的使用。
 :::
 
 ## 模型定义
@@ -168,24 +235,24 @@ class EasySwooleEvent implements Event
 
 #### 新增管理员用户表
 
-运行如下 `sql` 脚本，创建管理员用户表 `admin_list`。
+在 `easyswoole_demo` 数据库中执行如下 `sql` 脚本，创建管理员用户表 `admin_list`。
 
 ```sql
 DROP TABLE IF EXISTS `admin_list`;
-CREATE TABLE `admin_list`  (
-  `adminId` int(11) NOT NULL AUTO_INCREMENT,
-  `adminName` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `adminAccount` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `adminPassword` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `adminSession` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `adminLastLoginTime` int(11) NULL DEFAULT NULL,
-  `adminLastLoginIp` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+CREATE TABLE `admin_list` (
+  `adminId` int NOT NULL AUTO_INCREMENT,
+  `adminName` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `adminAccount` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `adminPassword` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `adminSession` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `adminLastLoginTime` int DEFAULT NULL,
+  `adminLastLoginIp` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`adminId`) USING BTREE,
-  UNIQUE INDEX `adminAccount`(`adminAccount`) USING BTREE,
-  INDEX `adminSession`(`adminSession`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+  UNIQUE KEY `adminAccount` (`adminAccount`) USING BTREE,
+  KEY `adminSession` (`adminSession`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `admin_list` VALUES (1, '仙士可', 'xsk', 'e10adc3949ba59abbe56e057f20f883e', '', 1566279458, '192.168.159.1');
+INSERT INTO `admin_list` VALUES (1, 'EasySwoole', 'easyswoole', 'e10adc3949ba59abbe56e057f20f883e', '', 1700891404, '127.0.0.1');
 ```
 
 #### 新增 model 文件
@@ -194,73 +261,116 @@ INSERT INTO `admin_list` VALUES (1, '仙士可', 'xsk', 'e10adc3949ba59abbe56e05
 
 ```php
 <?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 
 namespace App\Model\Admin;
 
-use EasySwoole\ORM\AbstractModel;
+use App\Model\BaseModel;
+use EasySwoole\FastDb\Attributes\Property;
+use EasySwoole\FastDb\Beans\Query;
 
 /**
  * Class AdminModel
- * @property $adminId
- * @property $adminName
- * @property $adminAccount
- * @property $adminPassword
- * @property $adminSession
- * @property $adminLastLoginTime
- * @property $adminLastLoginIp
+ *
+ * @property int    $adminId
+ * @property string $adminName
+ * @property string $adminAccount
+ * @property string $adminPassword
+ * @property string $adminSession
+ * @property int    $adminLastLoginTime
+ * @property string $adminLastLoginIp
  */
-class AdminModel extends AbstractModel
+class AdminModel extends BaseModel
 {
-    protected $tableName = 'admin_list';
+    #[Property(isPrimaryKey: true)]
+    public int $adminId;
+    #[Property]
+    public string $adminName;
+    #[Property]
+    public string $adminAccount;
+    #[Property]
+    public string $adminPassword;
+    #[Property]
+    public string $adminSession;
+    #[Property]
+    public int $adminLastLoginTime;
+    #[Property]
+    public string $adminLastLoginIp;
 
-    protected $primaryKey = 'adminId';
+    protected string $primaryKey = 'adminId';
+    protected string $table = 'admin_list';
 
     /**
      * @getAll
-     * @keyword adminName
-     * @param  int  page  1
-     * @param  string  keyword
-     * @param  int  pageSize  10
-     * @return array[total,list]
+     *
+     * @param int         $page
+     * @param null|string $keyword
+     * @param int         $pageSize
+     *
+     * @return array[$total, $list]
      */
-    public function getAll(int $page = 1, string $keyword = null, int $pageSize = 10): array
+    public function getAll(int $page = 1, ?string $keyword = null, int $pageSize = 10): array
     {
         $where = [];
         if (!empty($keyword)) {
             $where['adminAccount'] = ['%' . $keyword . '%', 'like'];
         }
-        $list = $this->limit($pageSize * ($page - 1), $pageSize)->order($this->primaryKey, 'DESC')->withTotalCount()->all($where);
-        $total = $this->lastQueryResult()->getTotalCount();
+
+        $this->queryLimit()->page($page, true, $pageSize)
+            ->orderBy($this->primaryKey, 'DESC');
+
+        /** \EasySwoole\FastDb\Beans\ListResult $resultList */
+        $resultList = $this->where($where)->all();
+
+        $total = $resultList->totalCount();
+        $list = $resultList->list();
+
         return ['total' => $total, 'list' => $list];
     }
 
-    /*
+    /**
      * 登录成功后请返回更新后的bean
      */
     public function login(): ?AdminModel
     {
-        $info = $this->get(['adminAccount' => $this->adminAccount, 'adminPassword' => $this->adminPassword]);
-        return $info;
+        $where = [
+            'adminAccount'  => $this->adminAccount,
+            'adminPassword' => $this->adminPassword
+        ];
+        return self::findRecord($where);
     }
 
-    /*
+    /**
      * 以account进行查询
      */
-    public function accountExist($field = '*'): ?AdminModel
+    public function accountExist(array $field = ['*']): ?AdminModel
     {
-        $info = $this->field($field)->get(['adminAccount' => $this->adminAccount]);
-        return $info;
+        return self::findRecord(function (Query $query) use ($field) {
+            $query->fields($field)
+                ->where('adminAccount', $this->adminAccount);
+        });
     }
 
-    public function getOneBySession($field = '*'): ?AdminModel
+    public function getOneBySession(array $field = ['*']): ?AdminModel
     {
-        $info = $this->field($field)->get(['adminSession' => $this->adminSession]);
-        return $info;
+        $this->queryLimit()->fields($field);
+        $this->where(['adminSession' => $this->adminSession]);
+        return $this->find();
     }
 
     public function logout()
     {
-        return $this->update(['adminSession' => '']);
+        $where = [$this->primaryKey => $this->adminId];
+        $update = ['adminSession' => ''];
+        return self::fastUpdate($where, $update);
     }
 }
 ```
@@ -268,11 +378,11 @@ class AdminModel extends AbstractModel
 针对上述类似 `: ?AdminModel`，不懂这种函数返回值类型声明的同学，请查看 [函数返回值类型声明](https://www.php.net/manual/zh/migration70.new-features.php)，属于 `PHP 7` 的新特性。
 
 ::: warning
-  关于 `model` 的定义可查看 [ORM 模型定义章节](/Components/Orm/definitionModel.md)。
+关于 `Model` 的定义可查看 [FastDb 模型定义章节](/Components/FastDb/definitionModel.md)。
 :::
 
 ::: warning
-  关于 `IDE` 自动提示，只要你在类上面注释中加上 `@property $adminId`，`IDE` 就可以自动提示类的这个属性。
+关于 `IDE` 自动提示，只要你在类上面注释中加上 `@property $adminId`，`IDE` 就可以自动提示类的这个属性。
 :::
 
 
@@ -282,29 +392,29 @@ class AdminModel extends AbstractModel
 
 #### 建表
 
-运行如下 `sql` 脚本，创建普通用户表 `user_list`。
+在数据库中执行如下 `sql` 脚本，创建普通用户表 `user_list`。
 
 ```sql
 DROP TABLE IF EXISTS `user_list`;
-CREATE TABLE `user_list`  (
-  `userId` int(11) NOT NULL AUTO_INCREMENT,
-  `userName` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `userAccount` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `userPassword` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `phone` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `addTime` int(11) NULL DEFAULT NULL,
-  `lastLoginIp` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `lastLoginTime` int(10) NULL DEFAULT NULL,
-  `userSession` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `state` tinyint(2) NULL DEFAULT NULL,
-  `money` int(10) NOT NULL DEFAULT 0 COMMENT '用户余额',
-  `frozenMoney` int(10) NOT NULL DEFAULT 0 COMMENT '冻结余额',
+CREATE TABLE `user_list` (
+  `userId` int NOT NULL AUTO_INCREMENT,
+  `userName` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userAccount` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userPassword` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `addTime` int unsigned DEFAULT '0',
+  `lastLoginIp` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `lastLoginTime` int unsigned DEFAULT '0',
+  `userSession` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` tinyint unsigned DEFAULT '0',
+  `money` int unsigned NOT NULL DEFAULT '0' COMMENT '用户余额',
+  `frozenMoney` int unsigned NOT NULL DEFAULT '0' COMMENT '冻结余额',
   PRIMARY KEY (`userId`) USING BTREE,
-  UNIQUE INDEX `pk_userAccount`(`userAccount`) USING BTREE,
-  INDEX `userSession`(`userSession`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+  UNIQUE KEY `pk_userAccount` (`userAccount`) USING BTREE,
+  KEY `userSession` (`userSession`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `user_list` VALUES (1, '仙士可', 'xsk', 'e10adc3949ba59abbe56e057f20f883e', '', 1566279458, '192.168.159.1', 1566279458, '', 1, 1, 1);
+INSERT INTO `user_list` VALUES (1, 'easyswoole', 'easyswoole', 'e10adc3949ba59abbe56e057f20f883e', '18888888888', 0, '127.0.0.1', 1700892578, '', 0, 0, 0);
 ```
 
 #### 新增 model 文件
@@ -313,77 +423,125 @@ INSERT INTO `user_list` VALUES (1, '仙士可', 'xsk', 'e10adc3949ba59abbe56e057
 
 ```php
 <?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 
 namespace App\Model\User;
 
-use EasySwoole\ORM\AbstractModel;
+use App\Model\BaseModel;
+use EasySwoole\FastDb\Attributes\Property;
 
 /**
  * Class UserModel
- * @property $userId
- * @property $userName
- * @property $userAccount
- * @property $userPassword
- * @property $phone
- * @property $money
- * @property $addTime
- * @property $lastLoginIp
- * @property $lastLoginTime
- * @property $userSession
- * @property $state
+ *
+ * @property int    $userId
+ * @property string $userName
+ * @property string $userAccount
+ * @property string $userPassword
+ * @property string $phone
+ * @property int    $addTime
+ * @property string $lastLoginIp
+ * @property int    $lastLoginTime
+ * @property string $userSession
+ * @property int    $state
+ * @property int    $money
+ * @property int    $frozenMoney
  */
-class UserModel extends AbstractModel
+class UserModel extends BaseModel
 {
-    protected $tableName = 'user_list';
+    protected string $table = 'user_list';
+    protected string $primaryKey = 'userId';
 
-    protected $primaryKey = 'userId';
+    public const STATE_PROHIBIT = 0; // 禁用状态
+    public const STATE_NORMAL = 1; // 正常状态
 
-    const STATE_PROHIBIT = 0; // 禁用状态
-    const STATE_NORMAL = 1; // 正常状态
+    #[Property(isPrimaryKey: true)]
+    public int $userId;
+    #[Property]
+    public string $userName;
+    #[Property]
+    public string $userAccount;
+    #[Property]
+    public string $userPassword;
+    #[Property]
+    public string $phone;
+    #[Property]
+    public int $addTime;
+    #[Property]
+    public ?string $lastLoginIp;
+    #[Property]
+    public ?int $lastLoginTime;
+    #[Property]
+    public ?string $userSession;
+    #[Property]
+    public int $state;
+    #[Property]
+    public int $money;
+    #[Property]
+    public int $frozenMoney;
 
     /**
      * @getAll
-     * @keyword userName
-     * @param  int  page  1
-     * @param  string  keyword
-     * @param  int  pageSize  10
+     *
+     * @param int         $page
+     * @param string|null $keyword
+     * @param int         $pageSize
+     *
      * @return array[total,list]
      */
-    public function getAll(int $page = 1, string $keyword = null, int $pageSize = 10): array
+    public function getAll(int $page = 1, ?string $keyword = null, int $pageSize = 10): array
     {
         $where = [];
         if (!empty($keyword)) {
             $where['userAccount'] = ['%' . $keyword . '%', 'like'];
         }
-        $list = $this->limit($pageSize * ($page - 1), $pageSize)->order($this->primaryKey, 'DESC')->withTotalCount()->all($where);
-        $total = $this->lastQueryResult()->getTotalCount();
+
+        $this->queryLimit()->page($page, withTotalCount: true, pageSize: $pageSize)
+            ->orderBy($this->primaryKey, 'DESC');
+        /** \EasySwoole\FastDb\Beans\ListResult $resultList */
+        $resultList = $this
+            ->where($where)
+            ->all();
+
+        $total = $resultList->totalCount();
+        $list = $resultList->list();
+
         return ['total' => $total, 'list' => $list];
     }
 
-    public function getOneByPhone($field = '*'): ?UserModel
+    public function getOneByPhone(array $field = ['*']): ?UserModel
     {
-        $info = $this->field($field)->get(['phone' => $this->phone]);
-        return $info;
+        $this->queryLimit()->fields($field);
+        return $this->find(['phone' => $this->phone]);
     }
 
     /*
-     * 登录成功后请返回更新后的bean
-     */
+    * 登录成功后请返回更新后的bean
+    */
     public function login(): ?UserModel
     {
-        $info = $this->get(['userAccount' => $this->userAccount, 'userPassword' => $this->userPassword]);
-        return $info;
+        return $this->find([
+            'userAccount'  => $this->userAccount,
+            'userPassword' => $this->userPassword
+        ]);
     }
 
-    public function getOneBySession($field = '*'): ?UserModel
+    public function getOneBySession(array $field = ['*']): ?UserModel
     {
-        $info = $this->field($field)->get(['userSession' => $this->userSession]);
-        return $info;
+        $this->queryLimit()->fields($field);
+        return $this->find(['userSession' => $this->userSession]);
     }
 
     public function logout()
     {
-        return $this->update(['userSession' => '']);
+        return $this->where([$this->primaryKey => $this->userId])->updateWithLimit(['userSession' => '']);
     }
 }
 ```
@@ -392,56 +550,88 @@ class UserModel extends AbstractModel
 
 #### 建表
 
-运行如下 `sql` 脚本，创建 `banner` 表 `banner_list`。
+在数据中执行如下 `sql` 脚本，创建 `banner` 表 `banner_list`。
 
 ```sql
 DROP TABLE IF EXISTS `banner_list`;
-CREATE TABLE `banner_list`  (
-  `bannerId` int(11) NOT NULL AUTO_INCREMENT,
-  `bannerName` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `bannerImg` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'banner图片',
-  `bannerDescription` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `bannerUrl` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '跳转地址',
-  `state` tinyint(3) NULL DEFAULT NULL COMMENT '状态0隐藏 1正常',
+CREATE TABLE `banner_list` (
+  `bannerId` int NOT NULL AUTO_INCREMENT,
+  `bannerName` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `bannerImg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'banner图片',
+  `bannerDescription` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `bannerUrl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '跳转地址',
+  `state` tinyint DEFAULT NULL COMMENT '状态0隐藏 1正常',
   PRIMARY KEY (`bannerId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `banner_list` VALUES (1, '测试banner', 'asdadsasdasd.jpg', '测试的banner数据', 'www.php20.cn', 1);
+INSERT INTO `banner_list` VALUES (1, '测试banner', 'asdadsasdasd.jpg', '测试的banner数据', 'www.easyswoole.com', 1);
 ```
 
-#### 新增model文件
+#### 新增 model 文件
 
 新建 `App/Model/Admin/BannerModel.php` 文件，编辑内容如下：
 
 ```php
 <?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 
 namespace App\Model\Admin;
 
-use EasySwoole\ORM\AbstractModel;
+use App\Model\BaseModel;
+use EasySwoole\FastDb\Attributes\Property;
 
 /**
  * Class BannerModel
- * @property $bannerId
- * @property $bannerImg
- * @property $bannerUrl
- * @property $state
+ *
+ * @property int    $bannerId
+ * @property string $bannerName
+ * @property string $bannerImg
+ * @property string $bannerDescription
+ * @property string $bannerUrl
+ * @property int    $state
  */
-class BannerModel extends AbstractModel
+class BannerModel extends BaseModel
 {
-    protected $tableName = 'banner_list';
+    protected string $table = 'banner_list';
+    protected string $primaryKey = 'bannerId';
 
-    protected $primaryKey = 'bannerId';
+    #[Property(isPrimaryKey: true)]
+    public int $bannerId;
+    #[Property]
+    public string $bannerName;
+    #[Property]
+    public string $bannerImg;
+    #[Property]
+    public string $bannerDescription;
+    #[Property]
+    public string $bannerUrl;
+    #[Property]
+    public int $state;
 
-    public function getAll(int $page = 1, int $state = 1, string $keyword = null, int $pageSize = 10): array
+    public function getAll(int $page = 1, int $state = 1, ?string $keyword = null, int $pageSize = 10): array
     {
         $where = [];
         if (!empty($keyword)) {
             $where['bannerUrl'] = ['%' . $keyword . '%', 'like'];
         }
+
         $where['state'] = $state;
-        $list = $this->limit($pageSize * ($page - 1), $pageSize)->order($this->primaryKey, 'DESC')->withTotalCount()->all($where);
-        $total = $this->lastQueryResult()->getTotalCount();
+
+        $this->queryLimit()->page($page, withTotalCount: true, pageSize: $pageSize)
+            ->orderBy($this->primaryKey, 'DESC');
+        /** \EasySwoole\FastDb\Beans\ListResult $resultList */
+        $listResult = $this->where($where)->all();
+        $total = $listResult->totalCount();
+        $list = $listResult->list();
+
         return ['total' => $total, 'list' => $list];
     }
 }
@@ -451,47 +641,58 @@ class BannerModel extends AbstractModel
 
 ### 全局基础控制器定义
 
-新建 `App/Httpcontroller/BaseController.php` 文件，编辑内容如下：
+新建 `App/Httpcontroller/Base.php` 文件，编辑内容如下：
 
 ```php
 <?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 
 namespace App\HttpController;
 
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\HttpAnnotation\AnnotationController;
 
-class BaseController extends AnnotationController
+class Base extends AnnotationController
 {
-    public function index()
+    public function index(): void
     {
         $this->actionNotFound('index');
     }
 
     /**
      * 获取用户的真实IP
+     *
      * @param string $headerName 代理服务器传递的标头名称
-     * @return string
+     *
+     * @return string|null
      */
-    protected function clientRealIP($headerName = 'x-real-ip')
+    protected function clientRealIP(string $headerName = 'x-real-ip'): ?string
     {
         $server = ServerManager::getInstance()->getSwooleServer();
         $client = $server->getClientInfo($this->request()->getSwooleRequest()->fd);
         $clientAddress = $client['remote_ip'];
-        $xri = $this->request()->getHeader($headerName);
-        $xff = $this->request()->getHeader('x-forwarded-for');
+        $xri = $this->request()->getHeaderLine($headerName);
+        $xff = $this->request()->getHeaderLine('x-forwarded-for');
         if ($clientAddress === '127.0.0.1') {
             if (!empty($xri)) {  // 如果有 xri 则判定为前端有 NGINX 等代理
-                $clientAddress = $xri[0];
+                $clientAddress = $xri;
             } elseif (!empty($xff)) {  // 如果不存在 xri 则继续判断 xff
-                $list = explode(',', $xff[0]);
-                if (isset($list[0])) $clientAddress = $list[0];
+                $clientAddress = $xff;
             }
         }
+
         return $clientAddress;
     }
 
-    protected function input($name, $default = null)
+    protected function input(string $name, mixed $default = null)
     {
         $value = $this->request()->getRequestParam($name);
         return $value ?? $default;
@@ -500,11 +701,11 @@ class BaseController extends AnnotationController
 ```
 
 ::: warning
-  上述新增的基础控制器 (BaseController.php) 里面的方法用于获取用户 `ip`，以及获取 `api` 参数。
+上述新增的基础控制器 (Base.php) 里面的方法用于获取用户 `ip`，以及获取 `api` 参数。
 :::
 
 ::: warning
-  上述新增的基础控制器 (BaseController.php) 继承了 `\EasySwoole\Http\AbstractInterface\AnnotationController` ，这个是注解支持控制器，具体使用可查看 [注解章节](/HttpServer/Annotation/install.md)
+上述新增的基础控制器 (Base.php) 继承了 `\EasySwoole\HttpAnnotation\AnnotationController` ，这个是注解支持控制器，具体使用可查看 [注解控制器章节](/HttpServer/AnnotationController/install.md)
 :::
 
 ### api 基础控制器定义
@@ -513,20 +714,28 @@ class BaseController extends AnnotationController
 
 ```php
 <?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 
 namespace App\HttpController\Api;
 
-use App\HttpController\BaseController;
+use App\HttpController\Base;
 use EasySwoole\EasySwoole\Core;
 use EasySwoole\EasySwoole\Trigger;
 use EasySwoole\Http\Message\Status;
-use EasySwoole\HttpAnnotation\Exception\Annotation\ParamValidateError;
+use EasySwoole\HttpAnnotation\Exception\ValidateFail;
 
-abstract class ApiBase extends BaseController
+abstract class ApiBase extends Base
 {
-    public function index()
+    public function index(): void
     {
-        // TODO: Implement index() method.
         $this->actionNotFound('index');
     }
 
@@ -545,11 +754,10 @@ abstract class ApiBase extends BaseController
 
     protected function onException(\Throwable $throwable): void
     {
-        if ($throwable instanceof ParamValidateError) {
-            $msg = $throwable->getValidate()->getError()->getErrorRuleMsg();
-            $this->writeJson(400, null, "{$msg}");
+        if ($throwable instanceof ValidateFail) {
+            $this->writeJson(400, null, $throwable->getMessage());
         } else {
-            if (Core::getInstance()->runMode() == 'dev') {
+            if (Core::getInstance()->runMode() === 'dev') {
                 $this->writeJson(500, null, $throwable->getMessage());
             } else {
                 Trigger::getInstance()->throwable($throwable);
@@ -561,7 +769,7 @@ abstract class ApiBase extends BaseController
 ```
 
 ::: warning
-  上述 `api` 基类控制器 (ApiBase.php)，用于拦截注解异常，以及 `api` 异常时给用户返回一个 `json` 格式错误信息。
+上述 `api` 基类控制器 (ApiBase.php)，用于拦截注解异常，以及 `api` 异常时给用户返回一个 `json` 格式错误信息。
 :::
 
 ### 公共基础控制器定义
@@ -570,72 +778,117 @@ abstract class ApiBase extends BaseController
 
 ```php
 <?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 
 namespace App\HttpController\Api\Common;
- 
+
 use App\HttpController\Api\ApiBase;
 
 class CommonBase extends ApiBase
 {
- 
+
 }
 ```
 
 ### 公共控制器
 
-公共控制器放不需要登陆即可查看的控制器，例如 `banner` 列表查看：
+公共控制器放不需要登录即可查看的控制器，例如 `banner` 列表查看：
 
 新增 `App/HttpController/Api/Common/Banner.php` 文件，编辑内容如下：
 
 ```php
 <?php
+/**
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
+ */
+declare(strict_types=1);
 
 namespace App\HttpController\Api\Common;
 
 use App\Model\Admin\BannerModel;
 use EasySwoole\Http\Message\Status;
-use EasySwoole\HttpAnnotation\AnnotationTag\Param;
+use EasySwoole\HttpAnnotation\Attributes\Api;
+use EasySwoole\HttpAnnotation\Attributes\Description;
+use EasySwoole\HttpAnnotation\Attributes\Param;
+use EasySwoole\HttpAnnotation\Enum\HttpMethod;
+use EasySwoole\HttpAnnotation\Enum\ParamFrom;
+use EasySwoole\HttpAnnotation\Validator\Integer;
+use EasySwoole\HttpAnnotation\Validator\MaxLength;
+use EasySwoole\HttpAnnotation\Validator\Optional;
+use EasySwoole\HttpAnnotation\Validator\Required;
 
-/**
- * Class Banner
- */
 class Banner extends CommonBase
 {
-
+    #[Api(
+        apiName: 'bannerGetOne',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/common/banner/getOne',
+        requestParam: [
+        new Param(name: 'bannerId', from: ParamFrom::GET, validate: [
+            new Required(),
+            new Integer(),
+        ], description: new Description('主键id')),
+    ],
+        description: 'getOne'
+    )]
     /**
-     * getOne
-     * @Param(name="bannerId", alias="主键id", required="", integer="")
-     * @throws \EasySwoole\ORM\Exception\Exception
-     * @throws \Throwable
-     * @author Tioncico
-     * Time: 14:03
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:20
      */
     public function getOne()
     {
         $param = $this->request()->getRequestParam();
         $model = new BannerModel();
-        $bean = $model->get($param['bannerId']);
+        $bean = $model->find((int)$param['bannerId']);
         if ($bean) {
-            $this->writeJson(Status::CODE_OK, $bean, "success");
+            $this->writeJson(Status::CODE_OK, $bean, 'success');
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, [], 'fail');
         }
     }
 
+    #[Api(
+        apiName: 'bannerGetAll',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/common/banner/getAll',
+        requestParam: [
+        new Param(name: 'page', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new Integer(),
+        ], description: new Description('页数')),
+        new Param(name: 'limit', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new Integer(),
+        ], description: new Description('每页总数')),
+        new Param(name: 'keyword', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new MaxLength(32),
+        ], description: new Description('关键字')),
+    ],
+        description: 'getAll'
+    )]
     /**
-     * getAll
-     * @Param(name="page", alias="页数", optional="", integer="")
-     * @Param(name="limit", alias="每页总数", optional="", integer="")
-     * @Param(name="keyword", alias="关键字", optional="", lengthMax="32")
-     * @throws \EasySwoole\ORM\Exception\Exception
-     * @author Tioncico
-     * Time: 14:02
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:20
      */
     public function getAll()
     {
         $param = $this->request()->getRequestParam();
-        $page = $param['page'] ?? 1;
-        $limit = $param['limit'] ?? 20;
+        $page = (int)$this->input('page', 1);
+        $limit = (int)$this->input('limit', 20);
         $model = new BannerModel();
         $data = $model->getAll($page, 1, $param['keyword'] ?? null, $limit);
         $this->writeJson(Status::CODE_OK, $data, 'success');
@@ -644,13 +897,11 @@ class Banner extends CommonBase
 ```
 
 ::: warning
-  注意：可以看到，在上文 `getAll` 方法中，有个特殊的 `@Param(name="page", alias="页数", optional="", integer
-  ="")` 的注释，这个是有特殊含义的，是注解支持写法，类似 `Java` 语言的注解，可以使用这种注解写法，也可以不使用，用户可自行选择。当写上这个注释之后，将会约束 `page` 参数必须是 `int
-  `，具体的验证机制可查看 [`validate` 验证器 章节](/Components/Validate/validate.md)。不写这个注释则没有约束。框架中如何使用注解请查看 [注解 章节](/HttpServer/Annotation/install.md)
+注意：可以看到，在上文 `getAll` 方法中，有个特殊的写法 `requestParam: [new Param(name: 'page', from: ParamFrom::GET, validate: [new Optional(), new Integer(),], description: new Description('页数')),` 这是 `php8` 支持的注解写法，类似 `Java` 语言的注解，当使用这个注解之后，将会约束 `page` 参数必须是 `int`，具体的验证机制可查看 [`validate` 验证器 章节](/Components/Validate/validate.md)。框架中如何使用注解请查看 [注解控制器章节](/HttpServer/AnnotationController/install.md)
 :::
 
 ::: warning
-  使用 `php easyswoole server start` 命令启动框架服务之后，访问链接：`http://127.0.0.1:9501/api/common/banner/getAll` (示例访问地址) 即可看到如下结果：`{"code":200,"result":{"total":1,"list":[{"bannerId":1,"bannerName":"测试banner","bannerImg":"asdadsasdasd.jpg","bannerDescription":"测试的banner数据","bannerUrl":"www.php20.cn","state":1}]},"msg":"success"}` (需要有数据才能看到具体输出)。
+使用 `php easyswoole.php server start` 命令启动框架服务之后，访问链接：`http://localhost:9501/api/common/banner/getAll` (示例访问地址) 即可看到如下结果：`{"code":200,"result":{"total":1,"list":[{"bannerId":1,"bannerName":"测试banner","bannerImg":"asdadsasdasd.jpg","bannerDescription":"测试的banner数据","bannerUrl":"www.easyswoole.com","state":1}]},"msg":"success"}` (需要有数据才能看到具体输出)。
 :::
 
 ### 管理员基础控制器定义
@@ -660,34 +911,35 @@ class Banner extends CommonBase
 ```php
 <?php
 /**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
  */
+declare(strict_types=1);
 
 namespace App\HttpController\Api\Admin;
 
-use App\HttpController\Api\ApiBase;
 use App\Model\Admin\AdminModel;
+use App\HttpController\Api\ApiBase;
 use EasySwoole\Http\Message\Status;
 
 class AdminBase extends ApiBase
 {
     // public 才会根据协程清除
-    public $who;
+    public ?AdminModel $who;
+
     // session 的 cookie头
-    protected $sessionKey = 'adminSession';
+    protected string $sessionKey = 'adminSession';
+
     // 白名单
-    protected $whiteList = [];
+    protected array $whiteList = [];
 
     /**
-     * onRequest
-     * @param null|string $action
-     * @return bool|null
-     * @throws \Throwable
-     * @author yangzhenyu
-     * Time: 13:49
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:28
      */
     public function onRequest(?string $action): ?bool
     {
@@ -696,37 +948,42 @@ class AdminBase extends ApiBase
             if (in_array($action, $this->whiteList)) {
                 return true;
             }
-            // 获取登入信息
+
+            // 获取登录信息
             if (!$this->getWho()) {
-                $this->writeJson(Status::CODE_UNAUTHORIZED, '', '登入已过期');
+                $this->writeJson(Status::CODE_UNAUTHORIZED, '', '登录已过期');
                 return false;
             }
+
             return true;
         }
+
         return false;
     }
 
     /**
-     * getWho
-     * @return null|AdminModel
-     * @author yangzhenyu
-     * Time: 13:51
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:28
      */
-    public function getWho(): ?AdminModel
+    protected function getWho(): ?AdminModel
     {
-        if ($this->who instanceof AdminModel) {
+        if (isset($this->who) && $this->who instanceof AdminModel) {
             return $this->who;
         }
+
         $sessionKey = $this->request()->getRequestParam($this->sessionKey);
         if (empty($sessionKey)) {
             $sessionKey = $this->request()->getCookieParams($this->sessionKey);
         }
+
         if (empty($sessionKey)) {
             return null;
         }
+
         $adminModel = new AdminModel();
         $adminModel->adminSession = $sessionKey;
         $this->who = $adminModel->getOneBySession();
+
         return $this->who;
     }
 }
@@ -739,31 +996,59 @@ class AdminBase extends ApiBase
 ```php
 <?php
 /**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
  */
+declare(strict_types=1);
 
 namespace App\HttpController\Api\Admin;
 
 use App\Model\Admin\AdminModel;
+use EasySwoole\FastDb\Exception\RuntimeError;
 use EasySwoole\Http\Message\Status;
-use EasySwoole\HttpAnnotation\AnnotationTag\Param;
+use EasySwoole\HttpAnnotation\Attributes\Api;
+use EasySwoole\HttpAnnotation\Attributes\Description;
+use EasySwoole\HttpAnnotation\Attributes\Param;
+use EasySwoole\HttpAnnotation\Enum\HttpMethod;
+use EasySwoole\HttpAnnotation\Enum\ParamFrom;
+use EasySwoole\HttpAnnotation\Exception\Annotation;
+use EasySwoole\HttpAnnotation\Validator\MaxLength;
+use EasySwoole\HttpAnnotation\Validator\MinLength;
+use EasySwoole\HttpAnnotation\Validator\Required;
 
 class Auth extends AdminBase
 {
-    protected $whiteList = ['login'];
+    protected array $whiteList = ['login'];
 
     /**
-     * login
-     * 登陆,参数验证注解写法
-     * @\EasySwoole\HttpAnnotation\AnnotationTag\Param(name="account", alias="帐号", required="", lengthMax="20")
-     * @Param(name="password", alias="密码", required="", lengthMin="6", lengthMax="16")
-     * @throws \EasySwoole\ORM\Exception\Exception
-     * @throws \Throwable
-     * @author Tioncico
-     * Time: 10:18
+     * @return void
+     * @throws RuntimeError
+     * @throws Annotation
+     */
+    #[Api(
+        apiName: 'login',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/auth/login',
+        requestParam: [
+        new Param(name: 'account', from: ParamFrom::GET, validate: [
+            new Required(),
+            new MaxLength(20)
+        ], description: new Description('帐号')),
+        new Param(name: 'password', from: ParamFrom::GET, validate: [
+            new Required(),
+            new MinLength(6),
+            new MaxLength(16),
+        ], description: new Description('密码')),
+    ],
+        description: '登陆,参数验证注解写法'
+    )]
+    /**
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:31
      */
     public function login()
     {
@@ -774,7 +1059,7 @@ class Auth extends AdminBase
 
         if ($user = $model->login()) {
             $sessionHash = md5(time() . $user->adminId);
-            $user->update([
+            $user->updateWithLimit([
                 'adminLastLoginTime' => time(),
                 'adminLastLoginIp'   => $this->clientRealIP(),
                 'adminSession'       => $sessionHash
@@ -784,19 +1069,28 @@ class Auth extends AdminBase
             unset($rs['adminPassword']);
             $rs['adminSession'] = $sessionHash;
             $this->response()->setCookie('adminSession', $sessionHash, time() + 3600, '/');
-            $this->writeJson(Status::CODE_OK, $rs);
+            $this->writeJson(Status::CODE_OK, $rs, 'success');
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, '', '密码错误');
         }
     }
 
+    #[Api(
+        apiName: 'logout',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/auth/logout',
+        requestParam: [
+        new Param(name: 'adminSession', from: ParamFrom::COOKIE, validate: [
+            new Required(),
+        ], description: new Description('帐号')),
+    ],
+        description: '退出登录,参数注解写法'
+    )]
     /**
-     * logout
-     * 退出登录,参数注解写法
-     * @Param(name="adminSession", from={COOKIE}, required="")
-     * @return bool
-     * @author Tioncico
-     * Time: 10:23
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:32
+     *
+     * @throws Annotation
      */
     public function logout()
     {
@@ -804,18 +1098,30 @@ class Auth extends AdminBase
         if (empty($sessionKey)) {
             $sessionKey = $this->request()->getCookieParams('adminSession');
         }
+
         if (empty($sessionKey)) {
-            $this->writeJson(Status::CODE_UNAUTHORIZED, '', '尚未登入');
+            $this->writeJson(Status::CODE_UNAUTHORIZED, '', '尚未登录');
             return false;
         }
+
         $result = $this->getWho()->logout();
         if ($result) {
-            $this->writeJson(Status::CODE_OK, '', "登出成功");
+            $this->writeJson(Status::CODE_OK, '', '退出登录成功');
         } else {
             $this->writeJson(Status::CODE_UNAUTHORIZED, '', 'fail');
         }
     }
 
+    #[Api(
+        apiName: 'getInfo',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/auth/getInfo',
+        description: '获取管理员信息'
+    )]
+    /**
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:34
+     */
     public function getInfo()
     {
         $this->writeJson(200, $this->getWho()->toArray(), 'success');
@@ -824,7 +1130,7 @@ class Auth extends AdminBase
 ```
 
 ::: warning
-  使用 `php easyswoole server start` 命令启动框架服务之后，访问链接：`http://127.0.0.1:9501/Api/Admin/Auth/login?account=xsk&password=123456` (示例访问地址) 即可返回如下结果：``
+使用 `php easyswoole.php server start` 命令启动框架服务之后，访问链接：`http://localhost:9501/api/admin/auth/login?account=easyswoole&password=123456` (示例访问地址) 即可返回如下结果：``
 :::
 
 ```json
@@ -832,13 +1138,13 @@ class Auth extends AdminBase
   "code": 200,
   "result": {
     "adminId": 1,
-    "adminName": "仙士可",
-    "adminAccount": "xsk",
-    "adminSession": "b27caf58312d5d4ffc9de42ebf322135",
-    "adminLastLoginTime": 1615653249,
-    "adminLastLoginIp": "192.168.65.1"
+    "adminName": "EasySwoole",
+    "adminAccount": "easyswoole",
+    "adminSession": "7262e8188ae9885e27e092538c08ca16",
+    "adminLastLoginTime": 1706271125,
+    "adminLastLoginIp": "127.0.0.1"
   },
-  "msg": null
+  "msg": "success"
 }
 ```
 
@@ -849,29 +1155,59 @@ class Auth extends AdminBase
 ```php
 <?php
 /**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
  */
+declare(strict_types=1);
 
 namespace App\HttpController\Api\Admin;
 
 use App\Model\User\UserModel;
 use EasySwoole\Http\Message\Status;
-use EasySwoole\HttpAnnotation\AnnotationTag\Param;
+use EasySwoole\HttpAnnotation\Attributes\Api;
+use EasySwoole\HttpAnnotation\Attributes\Description;
+use EasySwoole\HttpAnnotation\Attributes\Param;
+use EasySwoole\HttpAnnotation\Enum\HttpMethod;
+use EasySwoole\HttpAnnotation\Enum\ParamFrom;
+use EasySwoole\HttpAnnotation\Validator\InArray;
+use EasySwoole\HttpAnnotation\Validator\Integer;
+use EasySwoole\HttpAnnotation\Validator\IsPhoneNumber;
+use EasySwoole\HttpAnnotation\Validator\MaxLength;
+use EasySwoole\HttpAnnotation\Validator\MinLength;
+use EasySwoole\HttpAnnotation\Validator\Optional;
+use EasySwoole\HttpAnnotation\Validator\Required;
 
 class User extends AdminBase
 {
+    #[Api(
+        apiName: 'userGetAll',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/user/getAll',
+        requestParam: [
+        new Param(name: 'page', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new Integer(),
+        ], description: new Description('页数')),
+        new Param(name: 'limit', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new Integer(),
+        ], description: new Description('每页总数')),
+        new Param(name: 'keyword', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new MaxLength(32),
+        ], description: new Description('关键字')),
+    ],
+        description: 'getAll'
+    )]
     /**
-     * getAll
-     * @Param(name="page", alias="页数", optional="", integer="")
-     * @Param(name="limit", alias="每页总数", optional="", integer="")
-     * @Param(name="keyword", alias="关键字", optional="", lengthMax="32")
-     * @author Tioncico
-     * Time: 14:01
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:38
      */
-    function getAll()
+    public function getAll()
     {
         $page = (int)$this->input('page', 1);
         $limit = (int)$this->input('limit', 20);
@@ -880,102 +1216,165 @@ class User extends AdminBase
         $this->writeJson(Status::CODE_OK, $data, 'success');
     }
 
+    #[Api(
+        apiName: 'userGetOne',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/user/getOne',
+        requestParam: [
+        new Param(name: 'userId', from: ParamFrom::GET, validate: [
+            new Required(),
+            new Integer(),
+        ], description: new Description('户id')),
+    ],
+        description: 'getAll'
+    )]
     /**
-     * getOne
-     * @Param(name="userId", alias="用户id", required="", integer="")
-     * @throws \EasySwoole\ORM\Exception\Exception
-     * @throws \Throwable
-     * @author Tioncico
-     * Time: 11:48
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:40
      */
-    function getOne()
+    public function getOne()
     {
         $param = $this->request()->getRequestParam();
         $model = new UserModel();
-        $rs = $model->get($param['userId']);
+        $rs = $model->find((int)$param['userId']);
         if ($rs) {
-            $this->writeJson(Status::CODE_OK, $rs, "success");
+            $this->writeJson(Status::CODE_OK, $rs, 'success');
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, [], 'fail');
         }
     }
 
+    #[Api(
+        apiName: 'addUser',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/user/add',
+        requestParam: [
+        new Param(name: 'userName', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new MaxLength(32),
+        ], description: new Description('用户昵称')),
+        new Param(name: 'userAccount', from: ParamFrom::GET, validate: [
+            new Required(),
+            new MaxLength(32),
+        ], description: new Description('用户名')),
+        new Param(name: 'userPassword', from: ParamFrom::GET, validate: [
+            new Required(),
+            new MinLength(6),
+            new MaxLength(18),
+        ], description: new Description('用户密码')),
+        new Param(name: 'phone', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new IsPhoneNumber(),
+        ], description: new Description('手机号码')),
+        new Param(name: 'state', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new InArray([0, 1]),
+        ], description: new Description('用户状态')),
+    ],
+        description: 'add'
+    )]
     /**
-     * add
-     * @Param(name="userName", alias="用户昵称", optional="", lengthMax="32")
-     * @Param(name="userAccount", alias="用户名", required="", lengthMax="32")
-     * @Param(name="userPassword", alias="用户密码", required="", lengthMin="6",lengthMax="18")
-     * @Param(name="phone", alias="手机号码", optional="", lengthMax="18",numeric="")
-     * @Param(name="state", alias="用户状态", optional="", inArray="{0,1}")
-     * @author Tioncico
-     * Time: 11:48
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:44
      */
-    function add()
+    public function add()
     {
         $param = $this->request()->getRequestParam();
         $model = new UserModel($param);
         $model->userPassword = md5($param['userPassword']);
-        $rs = $model->save();
+        $rs = $model->insert();
         if ($rs) {
-            $this->writeJson(Status::CODE_OK, $rs, "success");
+            $this->writeJson(Status::CODE_OK, $rs, 'success');
         } else {
-            $this->writeJson(Status::CODE_BAD_REQUEST, [], $model->lastQueryResult()->getLastError());
+            $this->writeJson(Status::CODE_BAD_REQUEST, [], 'add fail');
         }
     }
 
+    #[Api(
+        apiName: 'updateUser',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/user/update',
+        requestParam: [
+        new Param(name: 'userId', from: ParamFrom::GET, validate: [
+            new Required(),
+            new Integer(),
+        ], description: new Description('用户id')),
+        new Param(name: 'userPassword', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new MinLength(6),
+            new MaxLength(18),
+        ], description: new Description('会员密码')),
+        new Param(name: 'userName', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new MaxLength(32),
+        ], description: new Description('会员名')),
+        new Param(name: 'state', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new InArray([0, 1]),
+        ], description: new Description('状态')),
+        new Param(name: 'phone', from: ParamFrom::GET, validate: [
+            new Optional(),
+            new IsPhoneNumber(),
+        ], description: new Description('手机号')),
+    ],
+        description: 'update'
+    )]
     /**
-     * update
-     * @Param(name="userId", alias="用户id", required="", integer="")
-     * @Param(name="userPassword", alias="会员密码", optional="", lengthMin="6",lengthMax="18")
-     * @Param(name="userName", alias="会员名", optional="",  lengthMax="32")
-     * @Param(name="state", alias="状态", optional="", inArray="{0,1}")
-     * @Param(name="phone", alias="手机号", optional="",  lengthMax="18")
-     * @throws \EasySwoole\ORM\Exception\Exception
-     * @throws \Throwable
-     * @author Tioncico
-     * Time: 11:54
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:50
      */
-    function update()
+    public function update()
     {
         $model = new UserModel();
+        $userId = $this->input('userId');
         /**
          * @var $userInfo UserModel
          */
-        $userInfo = $model->get($this->input('userId'));
+        $userInfo = $model->find((int)$userId);
         if (!$userInfo) {
             $this->writeJson(Status::CODE_BAD_REQUEST, [], '未找到该会员');
+            return false;
         }
+
         $password = $this->input('userPassword');
         $update = [
-            'userName' => $this->input('userName', $userInfo->userName),
+            'userName'     => $this->input('userName', $userInfo->userName),
             'userPassword' => $password ? md5($password) : $userInfo->userPassword,
-            'state' => $this->input('state', $userInfo->state),
-            'phone' => $this->input('phone', $userInfo->phone),
+            'state'        => $this->input('state', $userInfo->state),
+            'phone'        => $this->input('phone', $userInfo->phone),
         ];
 
-        $rs = $model->update($update);
-        if ($rs) {
-            $this->writeJson(Status::CODE_OK, $rs, "success");
+        $rs = $userInfo->updateWithLimit($update);
+        if ($rs === 0 || $rs === 1) {
+            $this->writeJson(Status::CODE_OK, $rs, 'success');
         } else {
-            $this->writeJson(Status::CODE_BAD_REQUEST, [], $model->lastQueryResult()->getLastError());
+            $this->writeJson(Status::CODE_BAD_REQUEST, [], 'update fail');
         }
     }
 
+    #[Api(
+        apiName: 'deleteUser',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/admin/user/delete',
+        requestParam: [
+        new Param(name: 'userId', from: ParamFrom::GET, validate: [
+            new Required(),
+            new Integer(),
+        ], description: new Description('用户id')),
+    ],
+        description: 'delete'
+    )]
     /**
-     * delete
-     * @Param(name="userId", alias="用户id", required="", integer="")
-     * @throws \EasySwoole\ORM\Exception\Exception
-     * @throws \Throwable
-     * @author Tioncico
-     * Time: 14:02
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:55
      */
-    function delete()
+    public function delete()
     {
         $param = $this->request()->getRequestParam();
-        $model = new UserModel();
-        $rs = $model->destroy($param['userId']);
+        $model = new UserModel(['userId' => $param['userId']]);
+        $rs = $model->delete();
         if ($rs) {
-            $this->writeJson(Status::CODE_OK, $rs, "success");
+            $this->writeJson(Status::CODE_OK, $rs, 'success');
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, [], '删除失败');
         }
@@ -984,11 +1383,11 @@ class User extends AdminBase
 ```
 
 ::: warning
-  后台管理员登录之后，可通过此文件的接口，去进行会员的增删改查操作 (即 CURD)。
+后台管理员登录之后，可通过此文件的接口，去进行会员的增删改查操作 (即 CURD)。
 :::
 
 ::: warning
-  请求地址为：(示例访问地址) `http://127.0.0.1:9501/Api/Admin/User/getAll` (等方法)
+请求地址为：(示例访问地址) `http://127.0.0.1:9501/Api/Admin/User/getAll` (等方法)
 :::
 
 ### 普通用户基础控制器定义
@@ -998,74 +1397,73 @@ class User extends AdminBase
 ```php
 <?php
 /**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
  */
+declare(strict_types=1);
 
 namespace App\HttpController\Api\User;
 
-use App\HttpController\Api\ApiBase;
 use App\Model\User\UserModel;
+use App\HttpController\Api\ApiBase;
 use EasySwoole\Http\Message\Status;
 
 class UserBase extends ApiBase
 {
-    protected $who;
-    // session 的 cookie 头
-    protected $sessionKey = 'userSession';
-    // 白名单
-    protected $whiteList = ['login', 'register'];
+    protected ?UserModel $who;
 
-    /**
-     * onRequest
-     * @param null|string $action
-     * @return bool|null
-     * @throws \Throwable
-     * @author yangzhenyu
-     * Time: 13:49
-     */
-    function onRequest(?string $action): ?bool
+    // session 的 cookie 头
+    protected string $sessionKey = 'userSession';
+
+    // 白名单
+    protected array $whiteList = ['login', 'register'];
+
+    public function onRequest(?string $action): ?bool
     {
         if (parent::onRequest($action)) {
             // 白名单判断
             if (in_array($action, $this->whiteList)) {
                 return true;
             }
-            // 获取登入信息
+
+            // 获取登录信息
             if (!$data = $this->getWho()) {
-                $this->writeJson(Status::CODE_UNAUTHORIZED, '', '登入已过期');
+                $this->writeJson(Status::CODE_UNAUTHORIZED, '', '登录已过期');
                 return false;
             }
+
             // 刷新 cookie 存活
             $this->response()->setCookie($this->sessionKey, $data->userSession, time() + 3600, '/');
 
             return true;
         }
+
         return false;
     }
 
-    /**
-     * getWho
-     * @author yangzhenyu
-     * Time: 13:51
-     */
-    function getWho(): ?UserModel
+    public function getWho(): ?UserModel
     {
-        if ($this->who instanceof UserModel) {
+        if (isset($this->who) && $this->who instanceof UserModel) {
             return $this->who;
         }
+
         $sessionKey = $this->request()->getRequestParam($this->sessionKey);
         if (empty($sessionKey)) {
             $sessionKey = $this->request()->getCookieParams($this->sessionKey);
         }
+
         if (empty($sessionKey)) {
             return null;
         }
+
         $userModel = new UserModel();
         $userModel->userSession = $sessionKey;
         $this->who = $userModel->getOneBySession();
+
         return $this->who;
     }
 }
@@ -1078,31 +1476,53 @@ class UserBase extends ApiBase
 ```php
 <?php
 /**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
+ * This file is part of EasySwoole.
+ *
+ * @link     https://www.easyswoole.com
+ * @document https://www.easyswoole.com
+ * @contact  https://www.easyswoole.com/Preface/contact.html
+ * @license  https://github.com/easy-swoole/easyswoole/blob/3.x/LICENSE
  */
+declare(strict_types=1);
 
 namespace App\HttpController\Api\User;
 
-use App\HttpController\Api\User\UserBase;
 use App\Model\User\UserModel;
 use EasySwoole\Http\Message\Status;
-use EasySwoole\HttpAnnotation\AnnotationTag\Param;
+use EasySwoole\HttpAnnotation\Attributes\Api;
+use EasySwoole\HttpAnnotation\Attributes\Description;
+use EasySwoole\HttpAnnotation\Attributes\Param;
+use EasySwoole\HttpAnnotation\Enum\HttpMethod;
+use EasySwoole\HttpAnnotation\Enum\ParamFrom;
+use EasySwoole\HttpAnnotation\Validator\MaxLength;
+use EasySwoole\HttpAnnotation\Validator\MinLength;
+use EasySwoole\HttpAnnotation\Validator\Optional;
+use EasySwoole\HttpAnnotation\Validator\Required;
 
 class Auth extends UserBase
 {
-    protected $whiteList = ['login', 'register'];
+    protected array $whiteList = ['login'];
 
+    #[Api(
+        apiName: 'login',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/user/auth/login',
+        requestParam: [
+        new Param(name: 'userAccount', from: ParamFrom::GET, validate: [
+            new Required(),
+            new MaxLength(32)
+        ], description: new Description('用户名')),
+        new Param(name: 'userPassword', from: ParamFrom::GET, validate: [
+            new Required(),
+            new MinLength(6),
+            new MaxLength(18),
+        ], description: new Description('密码')),
+    ],
+        description: 'login'
+    )]
     /**
-     * login
-     * @Param(name="userAccount", alias="用户名", required="", lengthMax="32")
-     * @Param(name="userPassword", alias="密码", required="", lengthMin="6",lengthMax="18")
-     * @throws \EasySwoole\ORM\Exception\Exception
-     * @throws \Throwable
-     * @author Tioncico
-     * Time: 15:06
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 00:31
      */
     public function login()
     {
@@ -1113,10 +1533,10 @@ class Auth extends UserBase
 
         if ($userInfo = $model->login()) {
             $sessionHash = md5(time() . $userInfo->userId);
-            $userInfo->update([
-                'lastLoginIp' => $this->clientRealIP(),
+            $userInfo->updateWithLimit([
+                'lastLoginIp'   => $this->clientRealIP(),
                 'lastLoginTime' => time(),
-                'userSession' => $sessionHash
+                'userSession'   => $sessionHash
             ]);
             $rs = $userInfo->toArray();
             unset($rs['userPassword']);
@@ -1128,24 +1548,51 @@ class Auth extends UserBase
         }
     }
 
+    #[Api(
+        apiName: 'logout',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/user/auth/logout',
+        requestParam: [
+        new Param(name: 'userSession', from: ParamFrom::GET, validate: [
+            new Optional(),
+        ], description: new Description('用户会话')),
+    ],
+        description: 'logout'
+    )]
+    /**
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 01:07
+     */
     public function logout()
     {
         $sessionKey = $this->request()->getRequestParam('userSession');
         if (empty($sessionKey)) {
             $sessionKey = $this->request()->getCookieParams('userSession');
         }
+
         if (empty($sessionKey)) {
-            $this->writeJson(Status::CODE_UNAUTHORIZED, '', '尚未登入');
+            $this->writeJson(Status::CODE_UNAUTHORIZED, '', '尚未登录');
             return false;
         }
+
         $result = $this->getWho()->logout();
         if ($result) {
-            $this->writeJson(Status::CODE_OK, '', "登出成功");
+            $this->writeJson(Status::CODE_OK, '', '退出登录成功');
         } else {
             $this->writeJson(Status::CODE_UNAUTHORIZED, '', 'fail');
         }
     }
 
+    #[Api(
+        apiName: 'getInfo',
+        allowMethod: HttpMethod::GET,
+        requestPath: '/api/user/auth/getInfo',
+        description: 'getInfo'
+    )]
+    /**
+     * Author: XueSi <hui.huang8540@gmail.com>
+     * Time: 01:10
+     */
     public function getInfo()
     {
         $this->writeJson(200, $this->getWho(), 'success');
@@ -1153,12 +1600,59 @@ class Auth extends UserBase
 }
 ```
 
-访问 `http://127.0.0.1:9501/Api/User/Auth/login?userAccount=xsk&userPassword=123456` 即可登录成功。
+访问 `http://localhost:9501/api/user/auth/login?userAccount=easyswoole&userPassword=456789` 即可登录成功。
 
-::: tip
-  管理员登录：(示例访问地址) `http://127.0.0.1:9501/Api/Admin/Auth/login?account=xsk&password=123456` 
-  
-  公共请求 banner：(示例访问地址) `http://127.0.0.1:9501/Api/Common/Banner/getAll`
-  
-  会员登录：(示例访问地址) `http://127.0.0.1:9501/Api/User/Auth/login?userAccount=xsk&userPassword=123456`
-:::
+## 接口访问
+
+上述 `demo` 中的所有接口均使用 `GET` 请求，可以在启动 `easyswoole` 服务后可使用浏览器访问如下 `URL` 进行体验：
+
+```bash
+# Admin 管理员模块
+## auth 模块
+- login 登录
+  - http://localhost:9501/api/admin/auth/login?account=easyswoole&password=123456
+
+- logout
+  - http://localhost:9501/api/admin/auth/logout
+
+- getInfo
+  - http://localhost:9501/api/admin/auth/getInfo
+
+## user manager 会员管理模块
+- get all user
+  - http://localhost:9501/api/admin/user/getAll
+  - http://localhost:9501/api/admin/user/getAll?page=1&limit=2
+  - http://localhost:9501/api/admin/user/getAll?keyword=easyswoole
+
+- get one user
+  - http://localhost:9501/api/admin/user/getOne?userId=1
+
+- add user
+  - http://localhost:9501/api/admin/user/add?userName=EasySwoole1&userAccount=easyswoole1&userPassword=123456
+
+- update user
+  - http://localhost:9501/api/admin/user/update?userId=1&userPassword=456789&userName=easyswoole&state=0&phone=18888888889
+
+- delete user
+  - http://localhost:9501/api/admin/user/delete?userId=2
+
+# Common 公共模块
+## banner 模块
+- get one banner 读取一条banner
+  - http://localhost:9501/api/common/banner/getOne?bannerId=1
+
+- get all banner
+  - http://localhost:9501/api/common/banner/getAll
+  - http://localhost:9501/api/common/banner/getAll?page=1&limit=2
+  - http://localhost:9501/api/common/banner/getAll?keyword=easyswoole
+
+# User 会员模块
+- user login
+  - http://localhost:9501/api/user/auth/login?userAccount=easyswoole&userPassword=456789
+
+- get user info
+  - http://localhost:9501/api/user/auth/getInfo
+
+- logout
+  - http://localhost:9501/api/user/auth/logout
+```

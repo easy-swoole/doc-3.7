@@ -110,8 +110,8 @@ Each application has its own configuration items. Adding your own configuration 
 ```
 
 ## Production and development configuration separation
-Under the php easyswoole start command, the default is development mode, loading `dev.php` (previous to 3.dev.env` before 3.1.2)
-When running the php easyswoole start produce command, load `produce.php` for production mode (previously `produce.env` before 3.1.2)
+Under the php easyswoole.php start command, the default is development mode, loading `dev.php` (previous to 3.dev.env` before 3.1.2)
+When running the php easyswoole.php start produce command, load `produce.php` for production mode (previously `produce.env` before 3.1.2)
 
 
 ## DI injection configuration

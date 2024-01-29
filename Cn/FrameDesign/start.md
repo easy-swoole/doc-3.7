@@ -6,7 +6,7 @@ title: Easyswoole框架设计原理 - 启动运行流程
 ## 一、自动加载
 我们在执行如下命令的时候：
 ```bash
-php easyswoole server start
+php easyswoole.php server start
 ```
 项目目录下的 `easyswoole` 这个文件，会搜索项目目录下是否存在 `composer` 所生成的 `autoload.php` 这个文件，用于实现 `psr-4` 自动加载，当文件不存在的时候，则终止框架启动。
 
@@ -40,7 +40,7 @@ php easyswoole server start
 
 以如下启动命令为例：
 ```bash
-php easyswoole server start -d
+php easyswoole.php server start -d
 ```
 > -d 可选，为守护启动参数
 

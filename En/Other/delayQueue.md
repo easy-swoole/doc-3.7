@@ -169,7 +169,7 @@ class Consumer extends AbstractProcess {
 #### Wait 3S to see if the terminal outputs
 
 ````php
-➜  easyswoole php easyswoole start
+➜  php easyswoole.php server start
   ______                          _____                              _
  |  ____|                        / ____|                            | |
  | |__      __ _   ___   _   _  | (___   __      __   ___     ___   | |   ___

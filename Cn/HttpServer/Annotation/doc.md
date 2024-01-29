@@ -35,7 +35,7 @@ class Index extends AnnotationController
 
 在项目根目录下执行如下命令：
 ```
-php easyswoole doc --dir=App/HttpController
+php easyswoole.php doc --dir=App/HttpController
 
 // 或者执行如下命令
 php vendor/bin/annotation-doc --dir=App/HttpController

@@ -87,10 +87,10 @@ $config->setMigrateTemplateDdlSyntax("DDLSyntax");
 如果不自定义`setMigratePath`、`setSeederPath`配置项，所有迁移命令必须在项目根目录(固定目录)下执行   
 :::
 
-执行 `php easyswoole migrate -h`
+执行 `php easyswoole.php migrate -h`
 
 ```bash
-php easyswoole migrate -h
+php easyswoole.php migrate -h
 Database migrate tool
 
 Usage:
@@ -117,13 +117,13 @@ Options:
 可用操作选项：
 
 - `--alter`：生成一个用于修改表的迁移模板
-    - 示例：`php easyswoole migrate create --alter=TableName`
+    - 示例：`php easyswoole.php migrate create --alter=TableName`
 - `--create`：生成一个用于新建表的迁移模板
-    - 示例：`php easyswoole migrate create --create=TableName`
+    - 示例：`php easyswoole.php migrate create --create=TableName`
 - `--drop`：生成一个用于删除表的迁移模板
-    - 示例：`php easyswoole migrate create --drop=TableName`
+    - 示例：`php easyswoole.php migrate create --drop=TableName`
 - `--table`：生成一个基础的迁移模板
-    - 示例：`php easyswoole migrate create --table=TableName`  等同于 `php easyswoole migrate create TableName`
+    - 示例：`php easyswoole.php migrate create --table=TableName`  等同于 `php easyswoole.php migrate create TableName`
 
 操作会在迁移文件目录生成一个类似文件名为`2021_04_08_082914_user.php`的文件，代码类似如下，对应操作使用的是 [easyswoole/ddl](https://github.com/easy-swoole/ddl) 组件方法
 
@@ -175,9 +175,9 @@ class User
 可用操作选项：
 
 - `--tables`：指定要生成迁移模板的表，多个表用 ',' 隔开
-    - 示例：`php easyswoole migrate generate --tables=table1,table2`
+    - 示例：`php easyswoole.php migrate generate --tables=table1,table2`
 - `--ignore`：指定要忽略生成迁移模板的表，多个表用 ',' 隔开
-    - 示例：`php easyswoole migrate generate --ignore=table1,table2`
+    - 示例：`php easyswoole.php migrate generate --ignore=table1,table2`
 
 ### run
 > 对所有未迁移的文件执行迁移操作
@@ -188,9 +188,9 @@ class User
 可用操作选项：
 
 - `--batch`：指定要回滚的批次号
-    - 示例：`php easyswoole migrate rollback --batch=2`
+    - 示例：`php easyswoole.php migrate rollback --batch=2`
 - `--id`：指定要回滚的迁移ID
-    - 示例：`php easyswoole migrate rollback --id=2`
+    - 示例：`php easyswoole.php migrate rollback --id=2`
 
 ### reset
 > 根据迁移表的记录，一次性回滚所有迁移
@@ -205,11 +205,11 @@ class User
 可用操作选项：
 
 - `--create`：创建一个数据填充模板
-  - 示例：`php easyswoole migrate seed --create=UserTable`
+  - 示例：`php easyswoole.php migrate seed --create=UserTable`
 - 直接填写文件名或者类名，即为执行指定填充文件(多个文件用 ',' 隔开)
-  - 示例：`php easyswoole migrate seed UserTable,UserInfoTable.php`
+  - 示例：`php easyswoole.php migrate seed UserTable,UserInfoTable.php`
 - 直接执行seed命令为执行数据填充目录下所有填充操作
-  - 示例：`php easyswoole migrate seed`
+  - 示例：`php easyswoole.php migrate seed`
 
 ### status
 > 迁移状态

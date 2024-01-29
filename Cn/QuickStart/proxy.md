@@ -13,13 +13,14 @@ meta:
 ## Nginx
 ```
 server {
-    root /data/wwwroot/;
+    listen 80;
     server_name local.swoole.com;
-    port 80;
+    root /data/wwwroot/;
     location / {
         proxy_http_version 1.1;
         proxy_set_header Connection "keep-alive";
         proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         if (!-f $request_filename) {
              proxy_pass http://127.0.0.1:9501;
         }
@@ -32,6 +33,37 @@ server {
 ::: warning 
  代理之后，可通过 `$request->getHeaderLine('x-real-ip')` 获取客户端真实ip 
 :::
+
+````php
+<?php
+// 控制器中获取客户端真实ip的方法
+use EasySwoole\EasySwoole\ServerManager;
+use EasySwoole\Http\AbstractInterface\Controller;
+class Base extends Controller
+{
+    /**
+     * 获取用户的真实IP
+     * @param string $headerName 代理服务器传递的请求头名称
+     * @return string|null
+     */
+    protected function clientRealIP(string $headerName = 'x-real-ip'): ?string
+    {
+        $server = ServerManager::getInstance()->getSwooleServer();
+        $client = $server->getClientInfo($this->request()->getSwooleRequest()->fd);
+        $clientAddress = $client['remote_ip'];
+        $xri = $this->request()->getHeaderLine($headerName);
+        $xff = $this->request()->getHeaderLine('x-forwarded-for');
+        if ($clientAddress === '127.0.0.1') {
+            if (!empty($xri)) {  // 如果有 xri 则判定为前端有 NGINX 等代理
+                $clientAddress = $xri;
+            } elseif (!empty($xff)) {  // 如果不存在 xri 则继续判断 xff
+                $clientAddress = $xff;
+            }
+        }
+        return $clientAddress;
+    }
+}
+````
 
 ## Apache
 
@@ -51,7 +83,7 @@ server {
 
 - [项目文档仓库](https://github.com/easy-swoole/doc-3.7)
 
-- [DEMO](https://github.com/easy-swoole/demo)
+- [DEMO](https://github.com/easy-swoole/demo-3.7)
 
 - QQ 交流群
     - VIP 群 579434607 （本群需要付费 599 元）

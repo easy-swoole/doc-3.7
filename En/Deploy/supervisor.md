@@ -29,7 +29,7 @@ The contents of the document are as follows：
 # Set running directory
 directory=/data/wwwroot/EasySwoole3.4.x
 # Start command for project
-command=php easyswoole server start
+command=php easyswoole.php server start
 # Set the user to run the process
 user=www-data
 # Do you want to start the application automatically when supervisor starts

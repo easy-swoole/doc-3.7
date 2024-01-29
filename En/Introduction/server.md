@@ -44,19 +44,19 @@ For details on the start operation, please enter easyswoole help -start
 ## Service start
 Development model： 
 ```
-php easyswoole start
+php easyswoole.php start
 ```
 ## Daemon mode starts
 ```
-php easyswoole start d
+php easyswoole.php start d
 ```
 ## Production environment (the default configuration is to load dev.php, use this command to load produce.php 3.1.2 before dev.env, produce.env)
 ```
-php easyswoole start produce
+php easyswoole.php start produce
 ```
 ## The service stops (the default configuration loads dev.php, using this command to load produce.php 3.1.2 before dev.env, produce.env)
 ```
-php easyswoole stop produce
+php easyswoole.php stop produce
 ```
 
 ::: warning 
@@ -69,7 +69,7 @@ php easyswoole stop produce
 
 ## Hot restart service
 ```
-php easyswoole reload   (Hot restart)
+php easyswoole.php reload   (Hot restart)
 ```
 
 ::: warning
@@ -78,7 +78,7 @@ php easyswoole reload   (Hot restart)
 
 ## Restart service
 ```
-php easyswoole restart (Force stop service and restart)
+php easyswoole.php restart (Force stop service and restart)
 ```
 
 ::: warning

@@ -99,7 +99,7 @@ while (true) {
 
 ### 协程的实现
 在php中,实现协程主要使用2种方式: 
- * yield生成器实现 (详细原理可查看http://www.php20.cn/article/148)
+ * yield生成器实现
  * swoole扩展实现
  
 swoole实现协程代码:

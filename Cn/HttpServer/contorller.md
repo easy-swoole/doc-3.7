@@ -130,7 +130,7 @@ class User extends Controller
 > 启动 easyswoole
 
 ```
-php easyswoole server start
+php easyswoole.php server start
 ```
 
 > 访问
@@ -144,7 +144,7 @@ curl http://localhost:9501/user/userInfo?name=easyswoole
 > 服务端输出
 
 ```
-➜  doc-new git:(master) ✗ php easyswoole server start
+➜  doc-new git:(master) ✗ php easyswoole.php server start
 #!/usr/bin/env php
   ______                          _____                              _
  |  ____|                        / ____|                            | |

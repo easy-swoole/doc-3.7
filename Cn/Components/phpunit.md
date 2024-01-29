@@ -31,11 +31,11 @@ EasySwoole/Phpunit 是对 `Phpunit` 的协程定制化封装，主要为解决�
 
 或者使用以下方式：
 
-> php easyswoole phpunit tests
+> php easyswoole.php phpunit tests
 
 默认采用协程容器去执行测试用例，使用非协程采用以下方式：
 
-> php easyswoole phpunit --no-coroutine
+> php easyswoole.php phpunit --no-coroutine
 
 注：`tests` 为要的测试目录，用于放需要进行单元测试的文件。
 
@@ -146,4 +146,4 @@ class DbTest extends TestCase
 
 或者执行
 
-> php easyswoole phpunit tests/DbTest.php
+> php easyswoole.php phpunit tests/DbTest.php

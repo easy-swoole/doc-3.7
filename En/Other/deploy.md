@@ -146,7 +146,7 @@ class Relase extends AbstractProcess
 
                     // Start a new service (the new and old services exist at the same time)
                     error_log('New service launch'.PHP_EOL, 3, '/Users/xxx/sites/es-log.log');
-                    $startExec = "cd {$newVersionPath}; php easyswoole start d {$shellLog}";
+                    $startExec = "cd {$newVersionPath}; php easyswoole.php start d {$shellLog}";
                     exec($startExec);
 
                     // Replace nginx configuration
@@ -163,7 +163,7 @@ class Relase extends AbstractProcess
 
                     // Stop the old service
                     error_log('The old service stopped'.PHP_EOL, 3, '/Users/xxx/sites/es-log.log');
-                    $stopExec = "cd ".EASYSWOOLE_ROOT."; php easyswoole stop {$shellLog}";
+                    $stopExec = "cd ".EASYSWOOLE_ROOT."; php easyswoole.php stop {$shellLog}";
                     exec($stopExec);
 
                     // Synchronize the code every 30 seconds

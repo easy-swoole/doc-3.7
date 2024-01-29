@@ -43,7 +43,7 @@ easyswoole/phpunit 支持在项目目录下定义一个phpunit.php，用户可�
 ## EasySwoole中使用
 自3.2.5版本的Easyswoole起，已经默认集成了 easyswoole/phpunit 组件。命令行下执行：
 ```
-php easyswoole phpunit tests
+php easyswoole.php phpunit tests
 ```
 
 即可进行测试，若部分测试需要Http或者tcp等服务，可以先以启动easyswoole并进入守护模式，再进行测试

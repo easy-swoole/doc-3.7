@@ -159,7 +159,7 @@ Cache::getInstance()->setOnStart(function (CacheProcessConfig $cacheProcessConfi
     }
 });
 
-// In the daemon process, php easyswoole stop will be called, landing data
+// In the daemon process, php easyswoole.php stop will be called, landing data
 Cache::getInstance()->setOnShutdown(function (SyncData $SyncData, CacheProcessConfig $cacheProcessConfig) {
     $data = [
         'data'  => $SyncData->getArray(),

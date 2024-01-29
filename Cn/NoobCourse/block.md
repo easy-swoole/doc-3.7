@@ -54,7 +54,6 @@ echo json_encode($result);//返回数据
 
 ### 非阻塞模型
 可以通过非阻塞模型去实现非阻塞(主要针对于server服务端实现).
-详细了解可查看:http://www.php20.cn/article/157
 
 ### php中的非阻塞  
 php初级开发者中,很少有非阻塞这个概念存在,但php是有非阻塞的,例如socket_set_nonblock()函数,将socket改为非阻塞状态   

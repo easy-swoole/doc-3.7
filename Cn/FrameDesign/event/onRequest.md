@@ -49,14 +49,16 @@ class EasySwooleEvent implements Event
 
 
             ###### 处理请求的跨域问题 ######
-            $response->withHeader('Access-Control-Allow-Origin', '*');
+            $origin = $request->getHeaderLine('origin') ?: '*';
+            $response->withHeader('Access-Control-Allow-Origin', $origin);
             $response->withHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
             $response->withHeader('Access-Control-Allow-Credentials', 'true');
-            $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+            $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, token');
             if ($request->getMethod() === 'OPTIONS') {
                 $response->withStatus(\EasySwoole\Http\Message\Status::CODE_OK);
                 return false;
             }
+            
             return true;
         });
     }
@@ -119,10 +121,11 @@ class EasySwooleEvent implements Event
 
 
         ###### 处理请求的跨域问题 ######
-        $response->withHeader('Access-Control-Allow-Origin', '*');
+        $origin = $request->getHeaderLine('origin') ?: '*';
+        $response->withHeader('Access-Control-Allow-Origin', $origin);
         $response->withHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         $response->withHeader('Access-Control-Allow-Credentials', 'true');
-        $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+        $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, token');
         if ($request->getMethod() === 'OPTIONS') {
             $response->withStatus(\EasySwoole\Http\Message\Status::CODE_OK);
             return false;

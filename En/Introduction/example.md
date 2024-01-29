@@ -356,16 +356,16 @@ class UserModel extends AbstractModel
 
 ```sql
 CREATE TABLE if not exists `banner_list` (
-                             `bannerId` int(11) NOT NULL AUTO_INCREMENT,
-                             `bannerName` varchar(32) DEFAULT NULL,
-                             `bannerImg` varchar(255) NOT NULL COMMENT 'Banner image',
-                             `bannerDescription` varchar(255) DEFAULT NULL,
-                             `bannerUrl` varchar(255) DEFAULT NULL COMMENT 'Jump address',
-                             `state` tinyint(3) DEFAULT NULL COMMENT 'State 0 hidden 1 normal',
-                             PRIMARY KEY (`bannerId`)
+    `bannerId` int(11) NOT NULL AUTO_INCREMENT,
+    `bannerName` varchar(32) DEFAULT NULL,
+    `bannerImg` varchar(255) NOT NULL COMMENT 'Banner image',
+    `bannerDescription` varchar(255) DEFAULT NULL,
+    `bannerUrl` varchar(255) DEFAULT NULL COMMENT 'Jump address',
+    `state` tinyint(3) DEFAULT NULL COMMENT 'State 0 hidden 1 normal',
+    PRIMARY KEY (`bannerId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO `banner_list` VALUES ('1', 'Test banner', 'asdadsasdasd.jpg', 'Tested banner data', 'www.php20.cn',1);
+INSERT INTO `banner_list` VALUES ('1', 'Test banner', 'asdadsasdasd.jpg', 'Tested banner data', 'www.easyswoole.cn',1);
 ```
 
 

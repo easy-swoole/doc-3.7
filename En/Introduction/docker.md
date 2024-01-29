@@ -29,7 +29,7 @@ docker pull easyswoole/easyswoole3
 ```
 docker run -ti -p 9501:9501 easyswoole/easyswoole3
 ```
-The default working directory is: ***/easyswoole***. When the above command is started, it automatically enters the working directory, executes php easyswoole start, and the browser accesses ***http://127.0.0.1:9501/***
+The default working directory is: ***/easyswoole***. When the above command is started, it automatically enters the working directory, executes php easyswoole.php start, and the browser accesses ***http://127.0.0.1:9501/***
 You can see the easyswoole welcome page.
 
 ## Docker File

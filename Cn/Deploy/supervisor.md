@@ -26,9 +26,9 @@ meta:
 # 设置应用名称为easyswoole
 [program:easyswoole]
 # 设置运行目录
-directory=/data/wwwroot/EasySwoole3.4.x
+directory=/data/wwwroot/EasySwoole3.7.x
 # 项目的启动命令
-command=php easyswoole server start
+command=php easyswoole.php server start
 # 设置用户来运行该进程
 user=www-data
 # 是否随着supervisor启动时 自动启动该应用

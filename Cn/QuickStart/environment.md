@@ -37,7 +37,7 @@ meta:
 
 具体如何安装 `Docker`，请自行`Google`查询资料进行安装。
 
-`EasySwoole` 官方为您提供了满足各种需求的 `Docker` 镜像，[easyswoole/docker](https://github.com/XueSiLf/easyswoole-docker) 项目内已经为您准备好了各种版本的 `Dockerfile` ，或直接基于已经构建好的 [easyswoolexuesi2021/easyswoole](https://hub.docker.com/r/easyswoolexuesi2021/easyswoole/tags) 镜像来运行。
+`EasySwoole` 官方为您提供了满足各种需求的 `Docker` 镜像，[easyswoole/docker](https://github.com/XueSiLf/easyswoole-docker) 项目内已经为您准备好了各种版本的 `Dockerfile` ，或直接基于已经构建好的 [easyswoolexuesi2021/easyswoole](https://hub.docker.com/r/easyswoolexuesi2021/easyswoole) 镜像来运行。
 
 ### Windows 下使用 WSL2 (Windows Subsystem for Linux)
 

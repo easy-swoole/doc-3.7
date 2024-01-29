@@ -67,7 +67,7 @@ Finally, the `composer dumpautoload` command is executed to update the namespace
 # Update namespace mapping
 composer dumpautoload
 # Start frame
-php easyswoole start
+php easyswoole.php start
 ```
 After launching the framework, visit `http://localhost:9501` to see Hello World.
 

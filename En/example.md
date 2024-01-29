@@ -105,13 +105,13 @@ Transfer rate:          2265.40 [Kbytes/sec] received
 ```
 composer require easyswoole/easyswoole=3.4.x
 php vendor/bin/easyswoole install
-php easyswoole server start
+php easyswoole.php server start
 ```
 
 ## Unit Test
 after install easyswoole,run:
 ```
-php easyswoole phpunit ./vendor/easyswoole/easyswoole/tests
+php easyswoole.php phpunit ./vendor/easyswoole/easyswoole/tests
 ```
 
 ## Docker
@@ -125,7 +125,7 @@ docker pull easyswoole/easyswoole3
 docker run -ti -p 9501:9501 easyswoole/easyswoole3
 ```
 - WorkerDir: ***/easyswoole***
-- Run Easyswoole : ***php easyswoole server start*** 
+- Run Easyswoole : ***php easyswoole.php server start*** 
 
 ## Others 
 - [Home Page](https://www.easyswoole.com)

@@ -91,14 +91,13 @@ docker run --name easyswoole \
 -p 9501:9501 -it \
 --privileged -u root \
 --entrypoint /bin/sh \
-easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole5.1.1
+easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole4.8.13
 ```
 
 EasySwoole 支持的 Docker 镜像目前有如下：
 
-- easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole5.1.1：环境为 `php8.1.22` + `swoole5.1.1` + `easyswoole 3.7.x`，构建镜像 `Dockerfile` 可[查看](https://github.com/XueSiLf/easyswoole-docker/blob/main/dockerfiles/php8/8.1.22/alpine/3.16/swoole/5.1.1/Dockerfile)
-- easyswoolexuesi2021/easyswoole:php7.4.33-alpine3.15-swoole4.4.26：环境为 `php7.4.33` + `swoole4.4.26` + `easyswoole 3.5.x`，构建镜像 `Dockerfile` 可[查看](https://github.com/XueSiLf/easyswoole-docker/blob/main/dockerfiles/php7/7.4.33/alpine/3.15/swoole/4.4.26/Dockerfile)
-- easyswoolexuesi2021/easyswoole:php7.3.33-alpine3.12-swoole4.4.26：环境为 `php7.3.33` + `swoole4.4.26` + `easyswoole 3.5.x`，构建镜像 `Dockerfile` 可[查看](https://github.com/XueSiLf/easyswoole-docker/blob/main/dockerfiles/php7/7.3.33/alpine/3.12/swoole/4.4.26/Dockerfile)
+- easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole4.8.13：环境为 `php8.1.22` + `swoole5.1.1` + `easyswoole 3.7.x`，构建镜像 `Dockerfile` 可[查看](https://github.com/XueSiLf/easyswoole-docker/blob/main/dockerfiles/php8/8.1.22/alpine/3.16/swoole/5.1.1/Dockerfile)
+- 更多请查看 [easyswoole/docker](https://github.com/XueSiLf/easyswoole-docker)
 
 ### 创建及安装框架
 

@@ -295,29 +295,29 @@ class Index extends Controller
 
 `EasySwoole` 内置了对于 `Process` 的命令行操作，方便开发者非常友好地去管理 `Process`。
 
-可执行 `php easyswoole process -h` 来查看具体操作。
+可执行 `php easyswoole.php process -h` 来查看具体操作。
 
 **显示所有进程**
 
-> php easyswoole process show
+> php easyswoole.php process show
 
 **如果想要以 `MB` 形式显示：**
 
-> php easyswoole process show -d
+> php easyswoole.php process show -d
 
 **杀死指定进程(PID)**
 
-> php easyswoole process kill --pid=PID
+> php easyswoole.php process kill --pid=PID
 
 **杀死指定进程组(GROUP)**
 
-> php easyswoole process kill --group=GROUP_NAME
+> php easyswoole.php process kill --group=GROUP_NAME
 
 **杀死所有进程**
 
-> php easyswoole process killAll
+> php easyswoole.php process killAll
 
 **强制杀死进程**
 
 需要带上 `-f` 参数，例如：
-> php easyswoole process kill --pid=PID -f
+> php easyswoole.php process kill --pid=PID -f

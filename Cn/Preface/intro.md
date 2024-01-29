@@ -126,7 +126,6 @@ EasySwoole 从最早的前身 EasyPHP-Swoole，到更名为 EasySwoole，再到�
 ## 其他
 - [GitHub](https://github.com/easy-swoole/easyswoole)  喜欢记得点个***star***
 - [GitHub for Doc](https://github.com/easy-swoole/doc)
-- [DEMO](https://github.com/easy-swoole/demo/) 暂且没有完全适配新版本，具体看文档。
 
 - QQ 交流群
     - VIP 群 579434607 （本群需要付费599元）

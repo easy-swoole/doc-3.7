@@ -9,7 +9,7 @@ meta:
 ## EasySwoole运行步骤
 EasySwoole的框架运行步骤大概为以下几步:
 
- * 从php easyswoole start开始,首先进行了目录常量定义,临时目录,日志目录定义,
+ * 从php easyswoole.php start开始,首先进行了目录常量定义,临时目录,日志目录定义,
  * 触发`initialize`,这个事件你可以进行一些服务注册,修改临时目录,日志目录等
  * 获取框架配置,监听ip,端口,worker进程数,子服务配置,回调等,准备开启swoole服务
  * 触发`mainServerCreate`,这个事件你可以自行重新配置监听ip,端口,回调事件,框架异常,等等

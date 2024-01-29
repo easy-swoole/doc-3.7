@@ -170,7 +170,7 @@ class Consumer extends AbstractProcess {
 #### 等3s看终端是否输出
 
 ````php
-➜  easyswoole php easyswoole start
+➜  php easyswoole.php start
   ______                          _____                              _
  |  ____|                        / ____|                            | |
  | |__      __ _   ___   _   _  | (___   __      __   ___     ___   | |   ___

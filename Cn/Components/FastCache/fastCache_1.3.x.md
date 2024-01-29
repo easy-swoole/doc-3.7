@@ -210,7 +210,7 @@ Cache::getInstance()->setOnStart(function (CacheProcessConfig $cacheProcessConfi
     }
 });
 
-// 在守护进程时,php easyswoole stop 时会调用,落地数据
+// 在守护进程时,php easyswoole.php stop 时会调用,落地数据
 Cache::getInstance()->setOnShutdown(function (SyncData $SyncData, CacheProcessConfig $cacheProcessConfig) {
     $data = [
         'data'  => $SyncData->getArray(),

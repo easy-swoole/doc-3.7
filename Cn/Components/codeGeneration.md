@@ -110,7 +110,7 @@ $connection = new \EasySwoole\ORM\Db\Connection($mysqlConfig);
 即可使用命令生成。
 
 ```bash
-php easyswoole generation
+php easyswoole.php generation
   ______                          _____                              _
  |  ____|                        / ____|                            | |
  | |__      __ _   ___   _   _  | (___   __      __   ___     ___   | |   ___

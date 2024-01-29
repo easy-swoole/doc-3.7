@@ -143,28 +143,3 @@ meta:
 单元测试用例存放在项目根目录的 `tests` 目录。
 
 > php easyswoole.php phpunit tests --no-coroutine
-
-
-## 生成 API 文档
-
-::: tip
- 注意：此命令在 `EasySwoole 3.4.4` 及以上版本中才可用。
-:::
-
-`EasySwoole` 内置了针对 `注解控制器` 中的注解方法生成对应 `API` 接口文档的命令，方便开发者可以更加高效地提供 `API` 接口文档用于对接。关于 `注解` 如何使用，详细请看 [注解](/HttpServer/Annotation/install.md) 章节。
-
-可执行 `php easyswoole.php doc -h` 来查看具体操作。
-
-**指定需要生成 API 文档的控制器目录**
-
-> php easyswoole.php doc --dir=App/HttpController/
-
-**指定生成 API 文档的额外说明**
-
-> php easyswoole.php doc --extra=API_README.md
-
-**指定需要生成 API 文档的控制器目录和文档额外说明**
-
-> php easyswoole.php doc --extra=API_README.md --dir=App/HttpController/
-
-以上命令执行完成之后，开发者即可在项目根目录看到 `easyDoc.html` API 接口文档。

@@ -40,7 +40,7 @@ meta:
 
 After installing the swoole_tracker extension, we execute:
 ```php
-/opt/swoole/script/php/swoole_php /opt/swoole/node-agent/src/node.php & php easyswoole start
+/opt/swoole/script/php/swoole_php /opt/swoole/node-agent/src/node.php & php easyswoole.php start
 ```
 The EasySwoole can be monitored.
 

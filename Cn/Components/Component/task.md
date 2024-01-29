@@ -194,4 +194,4 @@ return [
 
 **查看所有Task进程的状态**
 
-> php easyswoole task status
+> php easyswoole.php task status

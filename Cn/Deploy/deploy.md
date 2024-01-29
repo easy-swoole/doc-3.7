@@ -168,7 +168,7 @@ class Release extends AbstractProcess
 
                     // 启动新服务(这一刻新旧服务是同时存在的)
                     $this->dolog('新服务启动');
-                    $startExec = "cd {$newVersionPath}; php easyswoole server start -d {$shellLog}";
+                    $startExec = "cd {$newVersionPath}; php easyswoole.php server start -d {$shellLog}";
                     $this->dolog($startExec);
                     exec($startExec);
 
@@ -188,7 +188,7 @@ class Release extends AbstractProcess
 
                     // 停掉旧服务
                     $this->dolog('旧服务停掉');
-                    $stopExec = "cd " . EASYSWOOLE_ROOT . "; php easyswoole server stop {$shellLog}";
+                    $stopExec = "cd " . EASYSWOOLE_ROOT . "; php easyswoole.php server stop {$shellLog}";
                     $this->dolog($stopExec);
                     exec($stopExec);
 

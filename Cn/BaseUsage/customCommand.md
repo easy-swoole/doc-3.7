@@ -10,12 +10,12 @@ meta:
 # 自定义命令
 `EasySwoole` 默认自带有 5 个命令，如下所示: 
 ```
-php easyswoole crontab  对定时任务进行管理
-php easyswoole install  安装(需要在./vendor/easyswoole/easyswoole/bin/easyswoole 文件中调用)
-php easyswoole phpunit  执行单元测试 
-php easyswoole process  对自定义进程进行管理
-php easyswoole server   启动、停止、重启服务等
-php easyswoole task     查看 task 任务的运行状态
+php easyswoole.php crontab  对定时任务进行管理
+php easyswoole.php install  安装(需要在./vendor/easyswoole/easyswoole/bin/easyswoole 文件中调用)
+php easyswoole.php phpunit  执行单元测试 
+php easyswoole.php process  对自定义进程进行管理
+php easyswoole.php server   启动、停止、重启服务等
+php easyswoole.php task     查看 task 任务的运行状态
 ```
 
 ::: warning 
@@ -65,11 +65,13 @@ use EasySwoole\EasySwoole\Command\Utility;
 
 class Test implements CommandInterface
 {
+    // 设置命令名称
     public function commandName(): string
     {
         return 'test';
     }
 
+    // 处理执行命令的逻辑
     public function exec(): ?string
     {
         // 获取用户输入的命令参数
@@ -166,10 +168,10 @@ date_default_timezone_set('Asia/Shanghai');
 
 ### 执行命令结果
 ```bash
-$ php easyswoole test
+$ php easyswoole.php test
 please input the action param!
 
-$ php easyswoole test -h
+$ php easyswoole.php test -h
 This is test command!
 Usage:
   easyswoole test ACTION [--opts ...]
@@ -180,13 +182,13 @@ Actions:
 Options:
   --str=str_value  the string to be printed 
 
-$ php easyswoole test echo_string
+$ php easyswoole.php test echo_string
 this is test!
 
-$ php easyswoole test echo_date
+$ php easyswoole.php test echo_date
 now is 2021-02-23 19:23:19!
 
-$ php easyswoole test echo_logo
+$ php easyswoole.php test echo_logo
   ______                          _____                              _
  |  ____|                        / ____|                            | |
  | |__      __ _   ___   _   _  | (___   __      __   ___     ___   | |   ___
@@ -196,6 +198,6 @@ $ php easyswoole test echo_logo
                           __/ |
                          |___/
 
-$ php easyswoole test echo_string --str="hello easyswoole"
+$ php easyswoole.php test echo_string --str="hello easyswoole"
 hello easyswoole
 ```

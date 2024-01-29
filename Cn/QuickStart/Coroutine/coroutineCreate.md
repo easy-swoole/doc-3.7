@@ -26,7 +26,7 @@ meta:
 
 # 在 EasySwoole 中使用和创建协程
 
-当提示类似 `PHP Fatal error:  Uncaught Swoole\Error: API must be called in the coroutine in /root/easyswoole/test_coroutine.php:7` 错误时，说明该 `API` 必须在协程环境下使用。
+当提示类似 `PHP Fatal error:  Uncaught Swoole\Error: API must be called in the coroutine in /root/easyswoole/test_coroutine.php:7` 错误时，说明该 `API` 必须在协程环境下使用。那该如何创建协程环境呢？其实很简单，我们只需要这样写 ```\Swoole\Coroutine::create(function () { // 这里面就是协程环境 });``` 或 ```\Swoole\Coroutine\run(function() { // 这里面就是协程环境 });``` 或 ```go(function() { // 这里面就是协程环境});```，上述提到的三种方式均可用于创建协程环境。只需把调用代码写在匿名闭包函数里即可调用上述错误提到的 `API`。
 
 ## 在 `EasySwoole` 框架主进程中使用协程
 
@@ -50,7 +50,7 @@ $scheduler->start();
 
 ## 在 `EasySwoole` 框架 `Worker` 进程中使用协程
 
-这里所说的 `Worker` 进程是指 `EasySwoole` 服务启动之后的进程中调用协程 `API` 的需求，主要包括在 `Http 控制器`、`自定义进程` 等进程中调用协程 `API`。
+这里所说的 `Worker` 进程是指 `EasySwoole` 服务启动之后的进程中调用协程 `API` 的需求，主要包括在 `自定义进程` 等进程中调用协程 `API`。注意：在 `Http 控制器` 中如果是处于 `api` 接口环境下就已经是协程环境了。可以简单理解为当一个请求进来的时候 `swoole` 底层就自动创建了一个协程去处理这个请求，所以这个请求里的处理逻辑其实已经是在协程环境下了。
 
 简单使用示例如下：
 
