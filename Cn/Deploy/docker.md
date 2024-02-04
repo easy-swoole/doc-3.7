@@ -27,12 +27,16 @@ meta:
 :::
 
 ```bash
+# MacOS/Linux
 docker run --name easyswoole \
 -v /workspace/project:/var/www/project \
 -p 9501:9501 -it \
 --privileged -u root \
 --entrypoint /bin/sh \
 easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole4.8.13
+
+# Windows
+docker run --name easyswoole -v D:\workspace\easyswoole:/var/www -p 9501:9501 -it --privileged -u root --entrypoint /bin/sh easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole4.8.13
 ```
 
 上面利用 `Docker` 的映射功能，将宿主机目录 `/workspace/project` 映射到容器 `/var/www/project` 中。方便我们在宿主机开发，容器内进行同步测试。
@@ -75,7 +79,7 @@ php vendor/bin/easyswoole.php install
 ```bash
 cd /var/www/project
 php easyswoole.php server start
-# php easyswoole.php server start # 当你项目中的 EasySwoole 框架本低于 3.7.1 时
+# php easyswoole server start # 当你项目中的 EasySwoole 框架本低于 3.7.1 时
 ```
 
 接下来，就可以在宿主机 `/var/www/project` 中看到您安装好的代码了。 由于 `EasySwoole` 是持久化的 CLI 框架，当您修改完您的代码后，通过 `CTRL + C` 终止当前启动的进程实例，并重新执行 `php easyswoole.php server start` 启动命令即可。

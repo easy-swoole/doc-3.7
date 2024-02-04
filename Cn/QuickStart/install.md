@@ -86,12 +86,16 @@ php vendor/bin/easyswoole.php install
 :::
 
 ```bash
+# MacOS/Linux
 docker run --name easyswoole \
 -v /workspace/easyswoole:/var/www \
 -p 9501:9501 -it \
 --privileged -u root \
 --entrypoint /bin/sh \
 easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole4.8.13
+
+# Windows
+docker run --name easyswoole -v D:\workspace\easyswoole:/var/www -p 9501:9501 -it --privileged -u root --entrypoint /bin/sh easyswoolexuesi2021/easyswoole:php8.1.22-alpine3.16-swoole4.8.13
 ```
 
 EasySwoole 支持的 Docker 镜像目前有如下：
