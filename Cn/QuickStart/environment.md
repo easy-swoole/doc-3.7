@@ -13,6 +13,7 @@ meta:
 
 - [GitHub](https://github.com/easy-swoole/easyswoole)  喜欢记得点个 ***star***
 - [Github for Doc](https://github.com/easy-swoole/doc-3.7) 文档贡献
+- [Github for Doc 3.5.x](https://github.com/easy-swoole/doc) 3.5.x 版本文档
 
 ## 基础运行环境
 - 保证 **PHP** 版本大于等于 **8.1**

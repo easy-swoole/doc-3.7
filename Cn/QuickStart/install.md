@@ -12,6 +12,7 @@ meta:
 
 - [GitHub](https://github.com/easy-swoole/easyswoole)  喜欢记得给我们点个 ***star***
 - [Github for Doc](https://github.com/easy-swoole/doc-3.7) 文档贡献
+- [Github for Doc 3.5.x](https://github.com/easy-swoole/doc) 3.5.x 版本文档
 
 ::: danger 
 注意事项，请看完再进行安装
