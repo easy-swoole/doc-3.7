@@ -13,6 +13,7 @@ use EasySwoole\Component\Process\AbstractProcess;
 use EasySwoole\Component\Timer;
 use EasySwoole\EasySwoole\Config;
 use Swoole\Coroutine\System;
+use EasySwoole\DocSystem\DocLib\DocSearchParser;
 
 class TickProcess extends AbstractProcess
 {
@@ -31,8 +32,8 @@ class TickProcess extends AbstractProcess
             }
 
             // 本项目是git克隆下来的，因此自动同步
-            $exec = "cd " . EASYSWOOLE_ROOT . "; git pull";
-            System::exec($exec);
+            // $exec = "cd " . EASYSWOOLE_ROOT . "; git pull";
+            // System::exec($exec);
         });
     }
 }

@@ -13,4 +13,4 @@ meta:
 
 * * *
 
-文档传送门 👉 [自定义进程](/Cn/Components/Component/process.md)
+文档传送门 👉 [自定义进程](/Components/Component/process)

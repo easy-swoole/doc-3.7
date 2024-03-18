@@ -4,7 +4,7 @@
         "easyswoole/parsedown": "^1.0",
         "voku/simple_html_dom": "^4.8",
         "ext-yaml": "*",
-        "smarty/smarty": "^4.3"
+        "easyswoole/doc-system": "dev-master"
     },
     "autoload": {
         "psr-4": {

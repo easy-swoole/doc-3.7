@@ -11,14 +11,14 @@ return [
         'SOCK_TYPE' => SWOOLE_TCP,
         'RUN_MODEL' => SWOOLE_PROCESS,
         'SETTING' => [
-            'worker_num' => 8,
+            'worker_num' => swoole_cpu_num(),
             'reload_async' => true,
             'max_wait_time' => 3,
             'document_root' => EASYSWOOLE_ROOT . '/Static',
             'enable_static_handler' => true,
         ],
         'TASK' => [
-            'workerNum' => 4,
+            'workerNum' => 0,
             'maxRunningNum' => 128,
             'timeout' => 15
         ]

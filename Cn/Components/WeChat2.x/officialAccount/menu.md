@@ -30,33 +30,31 @@ $current = $officialAccount->menu->queryConfig();
 <?php
 
 $buttons = [
-    'button' => [
-        [
-            "type" => "click",
-            "name" => "今日歌曲",
-            "key" => "V1001_TODAY_MUSIC"
-        ],
-        [
-            "name" => "菜单",
-            "sub_button" => [
-                [
-                    "type" => "view",
-                    "name" => "搜索",
-                    "url" => "http://www.soso.com/"
-                ],
-                [
-                    "type" => "view",
-                    "name" => "视频",
-                    "url" => "http://v.qq.com/"
-                ],
-                [
-                    "type" => "click",
-                    "name" => "赞一下我们",
-                    "key" => "V1001_GOOD"
-                ],
+    [
+        "type" => "click",
+        "name" => "今日歌曲",
+        "key" => "V1001_TODAY_MUSIC"
+    ],
+    [
+        "name" => "菜单",
+        "sub_button" => [
+            [
+                "type" => "view",
+                "name" => "搜索",
+                "url" => "http://www.soso.com/"
+            ],
+            [
+                "type" => "view",
+                "name" => "视频",
+                "url" => "http://v.qq.com/"
+            ],
+            [
+                "type" => "click",
+                "name" => "赞一下我们",
+                "key" => "V1001_GOOD"
             ],
         ],
-    ]
+    ],
 ];
 
 $officialAccount->menu->create($buttons);
@@ -71,50 +69,47 @@ $officialAccount->menu->create($buttons);
 ```php
 <?php
 
-$matchRule = [
+$matchRule       = [
     "matchrule" => [
-        "tag_id" => "2",
-        "sex" => "1",
-        "country" => "中国",
-        "province" => "广东",
-        "city" => "广州",
+        "tag_id"               => "2",
+        "sex"                  => "1",
+        "country"              => "中国",
+        "province"             => "广东",
+        "city"                 => "广州",
         "client_platform_type" => "2",
-        "language" => "zh_CN"
+        "language"             => "zh_CN"
     ],
 ];
 
 $buttons = [
-    'button' => [
-        [
-            "type" => "click",
-            "name" => "今日歌曲",
-            "key" => "V1001_TODAY_MUSIC"
-        ],
-        [
-            "name" => "菜单",
-            "sub_button" => [
-                [
-                    "type" => "view",
-                    "name" => "搜索",
-                    "url" => "http://www.soso.com/"
-                ],
-                [
-                    "type" => "view",
-                    "name" => "视频",
-                    "url" => "http://v.qq.com/"
-                ],
-                [
-                    "type" => "click",
-                    "name" => "赞一下我们",
-                    "key" => "V1001_GOOD"
-                ],
+    [
+        "type" => "click",
+        "name" => "今日歌曲",
+        "key"  => "V1001_TODAY_MUSIC"
+    ],
+    [
+        "name"       => "菜单",
+        "sub_button" => [
+            [
+                "type" => "view",
+                "name" => "搜索",
+                "url"  => "http://www.soso.com/"
+            ],
+            [
+                "type" => "view",
+                "name" => "视频",
+                "url"  => "http://v.qq.com/"
+            ],
+            [
+                "type" => "click",
+                "name" => "赞一下我们",
+                "key"  => "V1001_GOOD"
             ],
         ],
     ],
-    $matchRule
 ];
 
-$officialAccount->menu->addconditional($buttons);
+$officialAccount->menu->create($buttons, $matchRule);
 ```
 
 ## 删除菜单
