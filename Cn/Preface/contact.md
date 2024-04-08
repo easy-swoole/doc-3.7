@@ -18,6 +18,6 @@ meta:
 
 # 联系作者
 - 微信
-  - ![](/Images/authWx.png)
+  - ![](/Images/authWx.jpg)
 - QQ 
   - 291323003    
