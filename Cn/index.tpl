@@ -182,9 +182,9 @@
 
             <a href="https://www.asiasea.com/" title="亚洲渔港股份有限公司" class="partner-one" target="_blank">
                 <img src="/Images/HomePagePartner/asiasea.png">
-                <div class="partner-name">亚洲渔港股份有限公司</div>
+                <div class="partner-name">亚洲渔港</div>
                 <div class="detail-card">
-                    <h4>亚洲渔港股份有限公司</h4>
+                    <h4>亚洲渔港</h4>
                     <p>亚洲渔港股份有限公司（ASIASEA）成立于2002年，是中国知名海鲜全面解决方案服务商，业务范围涵盖海鲜食材采购、产品研发、生产与质量管理、市场拓展、餐饮管理服务、冷链物流等全产业链条。</p>
                 </div>
             </a>
