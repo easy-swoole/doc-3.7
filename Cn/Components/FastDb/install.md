@@ -11,6 +11,10 @@ meta:
 
 `EasySwoole` 为了支持以 `PHP 8` 注解的方式来定义数据库对象映射，于是开发了 `fast-db` 这个数据库操作组件。
 
+::: tip
+   关于旧版本 `ORM` 文档的用法可查看 [Github](https://github.com/easy-swoole/doc/tree/master/Cn/Components/Orm) 或 [Gitee](https://gitee.com/1592328848/easyswoole-old-doc/tree/master/Cn/Components/Orm)。
+:::
+
 ## 组件要求
 
 - EasySwoole >=3.7.1
