@@ -233,10 +233,7 @@
   - [UDP服务](Socket/udp.md)
   - [常见问题](Socket/problem.md)
   - [WebSocket协议](Socket/websocketProtocol.md)
-  - Socket控制器
-    - [安装与使用示例](Socket/install.md)
-    - [控制器对象](Socket/controller.md)
-    - [响应对象](Socket/response.md)
+  - [Socket控制器](Socket/install.md)
 - 缓存
   - Redis
     - [安装](Components/Redis/introduction.md)
