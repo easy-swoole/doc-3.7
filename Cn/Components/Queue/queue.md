@@ -366,6 +366,6 @@ interface QueueDriverInterface
 
 ## 相关仓库
 
-[EasySwoole 中利用 Redis 实现消息队列](https://www.umdzz.cn/article/36/easyswooleredis)  
+[EasySwoole 中利用 Redis 实现消息队列](https://blog.csdn.net/qq_35151255/article/details/139843980)  
 
-[如何利用 EasySwoole 多进程多协程 Redis 队列实现爬虫](https://www.umdzz.cn/article/37/easyswooleredis)
+[如何利用 EasySwoole 多进程多协程 Redis 队列实现爬虫](https://blog.csdn.net/qq_35151255/article/details/139844140)
