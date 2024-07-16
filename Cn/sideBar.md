@@ -227,13 +227,11 @@
     - [存储过程](Components/FastDb/storedProcedure.md)
     - [组件使用常见问题](Components/FastDb/problem.md)
 - Socket服务
+  - [Socket控制器](Socket/socketController.md)
   - [TCP服务](Socket/tcp.md)
-  - [TCP服务器处理粘包](Socket/tcpSticky.md)
   - [WebSocket服务](Socket/webSocket.md)
   - [UDP服务](Socket/udp.md)
   - [常见问题](Socket/problem.md)
-  - [WebSocket协议](Socket/websocketProtocol.md)
-  - [Socket控制器](Socket/install.md)
 - 缓存
   - Redis
     - [安装](Components/Redis/introduction.md)
