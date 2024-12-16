@@ -65,8 +65,7 @@
   - 提问的艺术
     - [提问的艺术](NoobCourse/artOfAskingQuestions.md)
 - 更新与文档
-  - [框架更新记录](Update/main.md)
-  - [组件更新记录](Update/component.md)
+  - [框架更新](Update/main.md)
   - [文档贡献](Update/doc.md)
 - 快速开始
   - [环境要求](QuickStart/environment.md)
