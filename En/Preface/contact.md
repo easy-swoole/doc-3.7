@@ -10,7 +10,7 @@ meta:
 
 - Author WeChat
  
-    ![](/Images/authWx.png)
+    <img src="/Images/authWx.jpg" width="220">
       
 - Commercial support：
     - QQ 291323003
@@ -23,4 +23,5 @@ meta:
     - EasySwoole official three groups 932625047 (full)
     - EasySwoole official four groups 779897753 (full)
     - EasySwoole official five groups 853946743 (full)
-    - EasySwoole official six groups 524475224
+    - EasySwoole official six groups 524475224 (full)
+    - EasySwoole official seven groups 1016674948

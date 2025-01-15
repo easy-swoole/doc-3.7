@@ -135,14 +135,15 @@ EasySwoole 从最早的前身 EasyPHP-Swoole，到更名为 EasySwoole，再到�
     - EasySwoole 官方三群 932625047(已满)
     - EasySwoole 官方四群 779897753(已满)
     - EasySwoole 官方五群 853946743(已满)
-    - EasySwoole 官方六群 524475224
+    - EasySwoole 官方六群 524475224(已满)
+    - EasySwoole 官方七群 1016674948
     
 - 商业支持：
     - QQ 291323003
     - EMAIL admin@fosuss.com   
 - 作者微信
 
-    ![](/Images/authWx.png)    
+  <img src="/Images/authWx.jpg" width="220">
     
 - [捐赠](/Preface/donate.md)
   您的捐赠是对 EasySwoole 项目开发组最大的鼓励和支持。我们会坚持开发维护下去。 您的捐赠将被用于:

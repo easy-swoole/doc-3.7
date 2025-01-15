@@ -97,14 +97,15 @@ At this point you can visit `http://localhost:9501` to see the welcome page of t
     - EasySwoole official three groups 932625047 (full)
     - EasySwoole official four groups 779897753 (full)
     - EasySwoole official five groups 853946743 (full)
-    - EasySwoole official six groups 524475224
+    - EasySwoole official six groups 524475224 (full)
+    - EasySwoole official seven groups 1016674948
     
 - Business support:
     - QQ 291323003
     - EMAIL admin@fosuss.com   
 - Author WeChat
 
-    ![](/Images/authWx.png)    
+  <img src="/Images/authWx.jpg" width="220">
     
 - [Donation](/Preface/donate.md)
   Your donation is the greatest encouragement and support for the Swoole project development team. We will insist on development and maintenance. Your donation will be used to:
