@@ -140,35 +140,30 @@
                 </div>
                 <div class="navItem">
                     <div class="dropdown-wrapper">
-                        <a href="/wstool.html" style="text-decoration:none;">websocket测试工具</a>
-                        {*{if $lang eq 'Cn'}*}
-                            {*<a href="/wstool.html" style="text-decoration:none;">websocket测试工具</a>*}
-                        {*{else if}*}
-                            {*<a href="/wstool.html" style="text-decoration:none;">websocket test online</a>*}
-                        {*{/if}*}
+                        <a href="http://www.easyswoole.com/wstool.html" style="text-decoration:none;">websocket测试工具</a>
                     </div>
                 </div>
-                <div class="navItem lang-select">
-                    <div class="dropdown-wrapper">
-                        <button type="button" aria-label="Select language" class="dropdown-title">
-                            <span class="title">Language</span> <span class="arrow right"></span>
-                        </button>
-                        {*<ul class="nav-dropdown">*}
-                        <ul class="nav-dropdown" style="display: none;">
-                            {*{foreach from=$allowLanguages item=lang key=key}*}
-                                {*<li class="dropdown-item">*}
-                                    {*<a href="javascript:void(0)" data-lang="{$key}" class="nav-link lang-change">{$lang}</a>*}
-                                {*</li>*}
-                            {*{/foreach}*}
-                            <li class="dropdown-item">
-                                <a data-lang="Cn" class="nav-link lang-change" href="http://www.easyswoole.com">简体中文</a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a data-lang="En" class="nav-link lang-change" href="http://english.easyswoole.com">English</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+{*                <div class="navItem lang-select">*}
+{*                    <div class="dropdown-wrapper">*}
+{*                        <button type="button" aria-label="Select language" class="dropdown-title">*}
+{*                            <span class="title">Language</span> <span class="arrow right"></span>*}
+{*                        </button>*}
+{*                        *}{*<ul class="nav-dropdown">*}
+{*                        <ul class="nav-dropdown" style="display: none;">*}
+{*                            *}{*{foreach from=$allowLanguages item=lang key=key}*}
+{*                                *}{*<li class="dropdown-item">*}
+{*                                    *}{*<a href="javascript:void(0)" data-lang="{$key}" class="nav-link lang-change">{$lang}</a>*}
+{*                                *}{*</li>*}
+{*                            *}{*{/foreach}*}
+{*                            <li class="dropdown-item">*}
+{*                                <a data-lang="Cn" class="nav-link lang-change" href="http://www.easyswoole.com">简体中文</a>*}
+{*                            </li>*}
+{*                            <li class="dropdown-item">*}
+{*                                <a data-lang="En" class="nav-link lang-change" href="http://english.easyswoole.com">English</a>*}
+{*                            </li>*}
+{*                        </ul>*}
+{*                    </div>*}
+{*                </div>*}
             </div>
         </div>
     </header>
